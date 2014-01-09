@@ -22,6 +22,7 @@ body, h1, h2, h3, h4, h5, h6 {
 }
 
 .intro-header {
+<<<<<<< HEAD
     color: #f8f8f8;
     background: #222222;
     background-size: cover;
@@ -33,6 +34,18 @@ body, h1, h2, h3, h4, h5, h6 {
     position: relative;
     padding-top: 10%;
     padding-bottom: 10%;
+=======
+	color: #f8f8f8;
+	background: #222222;
+	background-size: cover;
+	text-align: center;
+}
+
+.intro-message {
+	position: relative;
+	padding-top: 10%;
+	padding-bottom: 10%;
+>>>>>>> origin/master
 }
 
 .intro-message > h1 {
@@ -151,9 +164,14 @@ body, h1, h2, h3, h4, h5, h6 {
 }
 
 footer {
+<<<<<<< HEAD
     background-color: #00264d;
     padding: 50px 0; 
     height: 155px;
+=======
+	background-color: #00264d;
+	padding: 50px 0;
+>>>>>>> origin/master
 }
 p.copyright {
     margin: 15px 0 0;
