@@ -17,16 +17,4 @@
         </div>
     </div>
 </div>
-
-<div class="container">
-    <div class="row">
-        @for ($i = 99500; $i < 100000; $i++)
-        <div class="col-md-2 panel-default">
-            <div class="panel-body">
-                Image ID: {{ Helper::alphaID($i) }} <br /> Numeric ID: {{ Helper::alphaID(Helper::alphaID($i), true) }}
-            </div>
-        </div>
-        @endfor
-    </div>
-</div>
 @stop

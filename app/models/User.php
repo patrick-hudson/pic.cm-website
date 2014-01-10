@@ -19,5 +19,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     public function getReminderEmail() {
         return $this->email;
     }
-
+    
+    public function getGroup() {
+        return $this->group;
+    }
 }

@@ -37,6 +37,10 @@ class CreateUserTable extends Migration {
                     ->integer("state")
                     ->nullable()
                     ->default(1);
+            $table
+                    ->integer("group")
+                    ->nullable()
+                    ->default(1);
         });
     }
 
