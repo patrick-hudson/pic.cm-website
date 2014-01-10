@@ -5,6 +5,8 @@
  * @package  Laravel
  * @author   Taylor Otwell <taylorotwell@gmail.com>
  */
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', true);
 
 /*
 |--------------------------------------------------------------------------

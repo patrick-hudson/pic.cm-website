@@ -16,7 +16,7 @@
 
         <!-- Custom Google Web Font -->
         <link href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic" rel="stylesheet" type="text/css">
-        
+
         <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="/assets/js/bootstrap.js"></script>
         @show
@@ -24,29 +24,34 @@
 
     <body>
         <div class="wrapper">
-        <nav class="navbar navbar-default" role="navigation">
-        @section('navbar')
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="/">Pic.cm</a>
-                </div>
+            <nav class="navbar navbar-default" role="navigation">
+                @section('navbar')
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="/">Pic.cm</a>
+                    </div>
 
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse navbar-right navbar-ex1-collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a href="/m/login">Login</a></li>
-                    </ul>
-                </div><!-- /.navbar-collapse -->
-            </div><!-- /.container -->
-            @show
-        </nav>
-        @yield('content')
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse navbar-right navbar-ex1-collapse">
+                        <ul class="nav navbar-nav">
+                            @if(Auth::check())
+                            <li><a href="/m">Manager</a></li>
+                            <li><a href="/m/logout">Logout</a></li>
+                            @else
+                            <li><a href="/m/login">Login/Register</a></li>
+                            @endif
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container -->
+                @show
+            </nav>
+            @yield('content')
         </div>
         <footer>
             @section('footer')

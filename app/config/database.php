@@ -47,7 +47,7 @@ return array(
         ),
         'mysql' => array(
             'driver' => 'mysql',
-            'host' => 'localhost',
+            'host' => '10.0.0.248',
             'database' => 'piccm',
             'username' => 'piccm',
             'password' => 'VBGXdKuBZNdQvdUC',

@@ -1,11 +1,14 @@
 <?php
 
 class SiteController extends BaseController {
-
-    protected $layout = 'layouts.site';
-
     public function home() {
-        $this->layout->content = View::make('site.home');
+        return View::make('site.home');
+    }
+    public function tos() {
+        return View::make('site.tos');
+    }
+    public function dmca() {
+        return View::make('site.dmca');
     }
 
 }

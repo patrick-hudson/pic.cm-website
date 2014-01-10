@@ -1,22 +1,24 @@
 <?php
 
 /*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the Closure to execute when that URI is requested.
-|
-*/
-App::missing(function($exception)
-{
+ * Error Functions
+ */
+App::missing(function($exception) {
     return Response::view('errors.missing', array(), 404);
 });
 
-Route::get('/', function(){return View::make('site.home');});
-Route::get('/tos', function(){return View::make('site.tos');});
-Route::get('/dmca', function(){return View::make('site.dmca');});
+/*
+ * Site Functions
+ */
+Route::get('/', 'SiteController@home');
+Route::get('/tos', 'SiteController@tos');
+Route::get('/dmca', 'SiteController@dmca');
 
-Route::get('/m/', 'ManagerController@home');
+
+/*
+ * Manager Functions
+ */
+Route::any('/m/login', array('before' => 'guest', 'uses' => 'AuthController@loginRegister'));
+Route::any('/m/logout', array('before' => 'auth', 'uses' => 'AuthController@doLogout'));
+
+Route::get('/m', array('before' => 'auth', 'uses' => 'ManagerController@home'));
