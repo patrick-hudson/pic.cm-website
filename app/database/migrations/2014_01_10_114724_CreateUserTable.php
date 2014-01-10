@@ -33,6 +33,10 @@ class CreateUserTable extends Migration {
                     ->dateTime("updated_at")
                     ->nullable()
                     ->default(null);
+            $table
+                    ->integer("state")
+                    ->nullable()
+                    ->default(1);
         });
     }
 

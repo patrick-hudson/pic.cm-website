@@ -7,23 +7,45 @@ class AuthController extends Controller {
         return Redirect::to('/m/login'); // redirect the user to the login screen
     }
 
-    public function loginRegister() {
+    public function doLogin() {
         if (Input::server("REQUEST_METHOD") == "POST") {
-            if (Input::get('action') == "login") {
-                if (Auth::attempt(array('email' => Input::get("email"), 'password' => Input::get("password")))) {
-                    return Redirect::intended('/m');
-                }
-            }
-
-            if (Input::get('action') == "register") {
-                
-            }
-
-            if (Input::get('action') == "forgot") {
-                
-            }
+            if (Auth::attempt(array('email' => Input::get("email"), 'password' => Input::get("password"))))
+                return Redirect::intended('/m');
+            else
+                Session::flash('message', 'The information you entered does not match our system');
         }
         return View::make('auth.login');
+    }
+
+    public function doRegister() {
+        if (Input::server("REQUEST_METHOD") == "POST") {
+            if (!Input::get('agree')) {
+                Session::flash('message', 'You did not agree to our <a href="/tos" target="_blank">Terms of Service</a>');
+            } else {
+                $results = DB::select('select count(id) as `cnt` from user where email = ?', array(Input::get("email")));
+                if ($results[0]->cnt > 0) {
+                    Session::flash('message', 'The email address provided is already in use');
+                } else {
+                    $results = DB::select('select count(id) as `cnt` from user where username = ?', array(Input::get("username")));
+                    if ($results[0]->cnt > 0) {
+                        Session::flash('message', 'The username provided is already in use');
+                    } else {
+                        if (Input::get('password') != Input::get('password_again')) {
+                            Session::flash('message', 'The passwords provided do not match');
+                        } else {
+                            Session::flash('message', 'Registration successful, please login to continue');
+                            $user = new User;
+                            $user->username = Input::get('username');
+                            $user->email = Input::get('email');
+                            $user->password = Hash::make(Input::get('password'));
+                            $user->save();
+                            return Redirect::to('/m/login'); // redirect the user to the login screen
+                        }
+                    }
+                }
+            }
+        }
+        return View::make('auth.register');
     }
 
     /**
@@ -32,7 +54,7 @@ class AuthController extends Controller {
      * @return Response
      */
     public function getRemind() {
-        return View::make('password.remind');
+        return View::make('auth.remind');
     }
 
     /**
@@ -60,7 +82,7 @@ class AuthController extends Controller {
         if (is_null($token))
             App::abort(404);
 
-        return View::make('password.reset')->with('token', $token);
+        return View::make('auth.reset')->with('token', $token);
     }
 
     /**
