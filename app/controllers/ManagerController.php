@@ -1,7 +1,11 @@
 <?php
 
 class ManagerController extends BaseController {
-    public function home() {
-        return View::make('manager.home');
+    public function doDashboard() {
+        return View::make('manager.dashboard');
+    }
+    
+    public function accountSettings(){
+        return View::make('manager.account');
     }
 }

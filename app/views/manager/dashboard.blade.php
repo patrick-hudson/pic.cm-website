@@ -1,5 +1,6 @@
 @extends('layouts.manager')
-@section('title', 'Home')
+@section('title', 'Dashboard')
+@section('pagetitle', '<h1>Dashboard <small>Uploaded images</small></h1>')
 @section('content')
 <div class="col-md-3 col-sm-4 gallery-img">
     <div class="wrap-image">

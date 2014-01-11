@@ -11,7 +11,8 @@ class CreateImageTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('images', function($table) {
+        Schema::create('user_images', function($table) {
+            $table->engine = 'InnoDB';
             $table->increments("imageid");
             $table->integer('imagesize');
             $table->integer('userid');
@@ -26,7 +27,7 @@ class CreateImageTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::dropIfExists("images");
+        Schema::dropIfExists("user_images");
     }
 
 }

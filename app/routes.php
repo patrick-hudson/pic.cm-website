@@ -1,14 +1,14 @@
 <?php
 
 /*
- * Error Functions
+ * Error Routes
  */
 App::missing(function($exception) {
     return Response::view('errors.missing', array(), 404);
 });
 
 /*
- * Site Functions
+ * Site Routes
  */
 Route::get('/', 'SiteController@home');
 Route::get('/tos', 'SiteController@tos');
@@ -16,11 +16,19 @@ Route::get('/dmca', 'SiteController@dmca');
 
 
 /*
- * Manager Functions
+ * API Routes
+ */
+
+Route::any('/api', 'ApiController@doUploadApi');
+Route::any('/ajax', 'ApiController@doAjaxRequest');
+
+/*
+ * Manager Routes
  */
 Route::any('/m/login', array('before' => 'guest', 'uses' => 'AuthController@doLogin'));
 Route::any('/m/logout', array('before' => 'auth', 'uses' => 'AuthController@doLogout'));
 Route::any('/m/register', array('before' => 'guest', 'uses' => 'AuthController@doRegister'));
 Route::any('/m/forgot', array('before' => 'guest', 'uses' => 'AuthController@doLogout'));
 
-Route::get('/m', array('before' => 'auth', 'uses' => 'ManagerController@home'));
+Route::get('/m', array('before' => 'auth', 'uses' => 'ManagerController@doDashboard'));
+Route::get('/m/account', array('before' => 'auth', 'uses' => 'ManagerController@accountSettings'));

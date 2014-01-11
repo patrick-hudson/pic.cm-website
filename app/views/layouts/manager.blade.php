@@ -89,9 +89,14 @@
                     <!-- end: MAIN MENU TOGGLER BUTTON -->
                     <!-- start: MAIN NAVIGATION MENU -->
                     <ul class="main-navigation-menu">
-                        <li class="active open">
+                        <li>
                             <a href="/m"><i class="clip-home-3"></i>
-                                <span class="title"> Dashboard </span><span class="selected"></span>
+                                <span class="title"> Dashboard </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/m/account"><i class="clip-cog-2"></i>
+                                <span class="title"> Account </span>
                             </a>
                         </li>
                         @if(Auth::User()->username > 1):
@@ -563,7 +568,7 @@
                         <div class="col-sm-12">
                             <!-- start: PAGE TITLE & BREADCRUMB -->
                             <ol class="breadcrumb">
-                                <li>
+                                <!-- li>
                                     <i class="clip-home-3"></i>
                                     <a href="#">
                                         Home
@@ -571,7 +576,7 @@
                                 </li>
                                 <li class="active">
                                     Dashboard
-                                </li>
+                                </li -->
                                 <li class="search-box">
                                     <form class="sidebar-search">
                                         <div class="form-group">
@@ -584,7 +589,7 @@
                                 </li>
                             </ol>
                             <div class="page-header">
-                                <h1>Dashboard <small>overview &amp; stats </small></h1>
+                                @yield('pagetitle')
                             </div>
                             <!-- end: PAGE TITLE & BREADCRUMB -->
                         </div>

@@ -1,9 +1,8 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCacheTable extends Migration {
+class AddUploadKeys extends Migration {
 
     /**
      * Run the migrations.
@@ -11,11 +10,11 @@ class CreateCacheTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('cache', function($table) {
+        Schema::create('user_keys', function($table) {
             $table->engine = 'InnoDB';
-            $table->string('key')->unique();
-            $table->text('value');
-            $table->integer('expiration');
+            $table->increments('id');
+            $table->integer('userid');
+            $table->string('key');
         });
     }
 
@@ -25,7 +24,7 @@ class CreateCacheTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::dropIfExists("cache");
+        Schema::dropIfExists("user_keys");
     }
 
 }
