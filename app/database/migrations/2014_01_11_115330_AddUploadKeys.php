@@ -13,8 +13,9 @@ class AddUploadKeys extends Migration {
         Schema::create('user_keys', function($table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('userid');
-            $table->string('key');
+            $table->integer('userid')->unique();
+            $table->string('apikey');
+            
         });
     }
 

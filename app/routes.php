@@ -31,4 +31,6 @@ Route::any('/m/register', array('before' => 'guest', 'uses' => 'AuthController@d
 Route::any('/m/forgot', array('before' => 'guest', 'uses' => 'AuthController@doLogout'));
 
 Route::get('/m', array('before' => 'auth', 'uses' => 'ManagerController@doDashboard'));
-Route::get('/m/account', array('before' => 'auth', 'uses' => 'ManagerController@accountSettings'));
+Route::any('/m/account', array('before' => 'auth', 'uses' => 'ManagerController@accountSettings'));
+
+Route::get('/m/api/key_generate', array('before' => 'auth', 'uses' => 'ApiController@doKeyGeneration'));

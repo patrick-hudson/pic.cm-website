@@ -3,10 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/views/layouts/manager.blade.php</file>
-            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/views/auth/login.blade.php</file>
-            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/views/auth/register.blade.php</file>
-            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/models/User.php</file>
+            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/.htaccess</file>
+            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/views/manager/dashboard.blade.php</file>
+            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/controllers/AuthController.php</file>
+            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/controllers/ApiController.php</file>
+            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/views/manager/account.blade.php</file>
+            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/models/Helper.php</file>
+            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/models/Api.php</file>
         </group>
     </open-files>
 </project-private>

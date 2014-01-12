@@ -10,7 +10,7 @@ class AuthController extends Controller {
     public function doLogin() {
         if (Input::server("REQUEST_METHOD") == "POST") {
             if (Auth::attempt(array('email' => Input::get("email"), 'password' => Input::get("password"))))
-                return Redirect::intended('/m');
+                return Redirect::to('/m');
             else
                 Session::flash('message', 'The information you entered does not match our system');
         }

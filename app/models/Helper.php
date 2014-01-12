@@ -10,7 +10,7 @@ class Helper {
      * @return mixed string or long
      */
 
-    public static function alphaID($in, $to_num = false, $pad_up = false, $pass_key = null) {
+    public static function GalleryID($in, $to_num = false, $pad_up = false, $pass_key = null) {
         $out = '';
         $index = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $base = strlen($index);
@@ -64,6 +64,48 @@ class Helper {
         }
 
         return $out;
+    }
+
+    public static function ImageID($var, $action = 'encode') {
+        $base_chars = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // DON'T REPEAT A SINGLE CHAR!
+
+        for ($n = 0; $n < strlen($base_chars); $n++) {
+            $i[] = substr($base_chars, $n, 1);
+        }
+
+        $passhash = hash('sha256', 'a6c87115');
+        $passhash = (strlen($passhash) < strlen($base_chars)) ? hash('sha512', 'a6c87115') : $passhash;
+
+        for ($n = 0; $n < strlen($base_chars); $n++) {
+            $p[] = substr($passhash, $n, 1);
+        }
+
+        array_multisort($p, SORT_DESC, $i);
+        $base_chars = implode($i);
+
+        switch ($action) {
+            case 'encode':
+                $string = '';
+                $len = strlen($base_chars);
+                while ($var >= $len) {
+                    $mod = bcmod($var, $len);
+                    $var = bcdiv($var, $len);
+                    $string = $base_chars[$mod] . $string;
+                }
+                return $base_chars[intval($var)] . $string;
+                break;
+            case 'decode':
+                $integer = 0;
+                $var = strrev($var);
+                $baselen = strlen($base_chars);
+                $inputlen = strlen($var);
+                for ($i = 0; $i < $inputlen; $i++) {
+                    $index = strpos($base_chars, $var[$i]);
+                    $integer = bcadd($integer, bcmul($index, bcpow($baselen, $i)));
+                }
+                return intval($integer);
+                break;
+        }
     }
 
     /*
@@ -234,7 +276,7 @@ class Helper {
             'zip' => 'application/x-compressed', 'zip' => 'application/x-zip-compressed', 'zip' => 'application/zip', 'zip' => 'multipart/x-zip',
             'zoo' => 'application/octet-stream', 'zsh' => 'text/x-script.zsh',
         );
-        
+
         return array_search($string, $mime_types_map);
     }
 

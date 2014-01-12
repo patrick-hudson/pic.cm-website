@@ -52,8 +52,8 @@
                     </button>
                     <!-- end: RESPONSIVE MENU TOGGLER -->
                     <!-- start: LOGO -->
-                    <a class="navbar-brand" href="index.html">
-                        CLIP<i class="clip-clip"></i>ONE
+                    <a class="navbar-brand" href="/m">
+                        Pic.cm Manager
                     </a>
                     <!-- end: LOGO -->
                 </div>
@@ -606,7 +606,7 @@
         @section('footer')
         <div class="footer clearfix">
             <div class="footer-inner">
-                2014 &copy; clip-one by cliptheme.
+                2014 &copy; {{ link_to('/', 'Pic.cm') }}
             </div>
             <div class="footer-items">
                 <span class="go-top"><i class="clip-chevron-up"></i></span>

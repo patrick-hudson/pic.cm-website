@@ -23,4 +23,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     public function getGroup() {
         return $this->group;
     }
+    
+    public static function getImages($startpos = 0, $limit = 100){
+        
+        return $users = DB::table('user_images')->where('userid', Auth::user()->id)->skip($startpos)->take($limit)->get();
+    }
 }

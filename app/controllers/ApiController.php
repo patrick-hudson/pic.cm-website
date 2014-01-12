@@ -10,12 +10,11 @@ class ApiController extends Controller {
     public static function doUploadApi() {
         $return = array();
         if (Input::get('key') && Input::get('action')) {
-            if (Api::checkApiKey(Input::get('key')) || Config::get('app.debug')) {
+            if ($userid = Api::checkApiKey(Input::get('key'))) {
                 if (Input::get('action') == 'upload') {
                     if (Input::get('data')) {
-                        $tmpfname = tempnam(sys_get_temp_dir(), 'piccm_'); // good 
-                        $return['code'] = 200;
-                        $return['message'] = "$tmpfname";
+                        $tmpfname = tempnam(sys_get_temp_dir(), 'piccm_'); // good
+
                         $fsock = fopen($tmpfname, "rw+");
                         fwrite($fsock, base64_decode(Input::get('data')));
                         fclose($fsock);
@@ -23,12 +22,25 @@ class ApiController extends Controller {
                         $finfo = finfo_open(FILEINFO_MIME_TYPE);
                         $mimetype = finfo_file($finfo, $tmpfname);
                         finfo_close($finfo);
-                        
-                        $return['code'] = 200;
-                        $return['image']['name'] = Helper::alphaID(rand(0, 10000), false, 0, Input::get('key'));
-                        $return['image']['type'] = Helper::mimeToExt($mimetype); 
 
-                        unlink($tmpfname);
+
+                        $return['image']['size'] = filesize($tmpfname);
+                        $return['image']['type'] = Helper::mimeToExt($mimetype);
+                        $return['code'] = 200;
+
+                        $id = DB::table('user_images')->insertGetId(
+                                array(
+                                    'imagesize' => $return['image']['size'],
+                                    'userid' => $userid,
+                                    'mimetype' => $return['image']['type'],
+                                    'uploaddate' => date("Y-m-d H:i:s")
+                                )
+                        );
+
+                        $return['image']['name'] = Helper::ImageID($id);
+
+                        //unlink($tmpfname);
+                        File::move($tmpfname, public_path() . '/i/' . $return['image']['name'] . '.' . $return['image']['type']);
                     } else {
                         $return['code'] = 400;
                         $return['message'] = "Missing data from request";
@@ -43,7 +55,18 @@ class ApiController extends Controller {
             $return['message'] = "Missing data from request";
         }
         $headers['Content-Type'] = 'application/xml';
-        return Response::make(Helper::arrayToXml($return), $return['code'], $headers);
+        if (Input::get('responsecode') === true)
+            return Response::make(Helper::arrayToXml($return), $return['code'], $headers);
+        else
+            return Response::make(Helper::arrayToXml($return), 200, $headers);
+    }
+
+    public static function doKeyGeneration() {
+        $apikey = str_random(32);
+
+        DB::statement('INSERT INTO `user_keys` (`userid`, `apikey`) VALUES (' . Auth::user()->id . ',\'' . $apikey . '\') ON DUPLICATE KEY UPDATE `apikey` = \'' . $apikey . '\'');
+
+        return Redirect::to('/m/account');
     }
 
 }
