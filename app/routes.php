@@ -14,12 +14,13 @@ Route::get('/', 'SiteController@home');
 Route::get('/tos', 'SiteController@tos');
 Route::get('/dmca', 'SiteController@dmca');
 
+Route::any('/t/{filename}', 'ApiController@doImageResize');
 
 /*
  * API Routes
  */
 
-Route::any('/api', 'ApiController@doUploadApi');
+Route::any('/api', 'ApiController@doApiRequest');
 Route::any('/ajax', 'ApiController@doAjaxRequest');
 
 /*

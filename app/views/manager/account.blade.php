@@ -12,7 +12,7 @@
             <div class="panel-body">
                 {{ Form::open(array('url' => '/m/account', 'class' => 'form-horizontal')) }}
                 <div class="form-group">
-                    <label class="col-sm-3 control-label" for="form-field-username">
+                    <label class="col-sm-3 control-label">
                         Username
                     </label>
                     <div class="col-sm-9">
@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label" for="form-field-email">
+                    <label class="col-sm-3 control-label">
                         Email Address
                     </label>
                     <div class="col-sm-9">
@@ -65,7 +65,7 @@
                 @if($apikey = Api::getUserApiKey())
                 <div class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" for="form-field-6">
+                        <label class="col-sm-3 control-label">
                             Upload Key
                         </label>
                         <div class="col-sm-9">

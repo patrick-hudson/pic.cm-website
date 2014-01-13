@@ -24,7 +24,7 @@
 
     <body>
         <div class="wrapper">
-            <nav class="navbar navbar-default" role="navigation">
+            <nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
                 @section('navbar')
                 <div class="container">
                     <div class="navbar-header">
@@ -57,7 +57,7 @@
             @section('footer')
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-sm-4">
                         <ul class="list-inline">
                             <li><a href="/">Home</a></li>
                             <li class="footer-menu-divider">&sdot;</li>
@@ -65,7 +65,9 @@
                             <li class="footer-menu-divider">&sdot;</li>
                             <li><a href="/dmca">DMCA</a></li>
                         </ul>
-                        <p class="copyright text-muted small">Copyright &copy; Your Company 2013. All Rights Reserved</p>
+                    </div>
+                    <div class="col-sm-4 col-sm-offset-4">
+                        <p class="text-muted">Copyright &copy; Pic.cm {{ date('Y') }}. All Rights Reserved</p>
                     </div>
                 </div>
             </div>
