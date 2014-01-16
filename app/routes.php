@@ -14,7 +14,10 @@ Route::get('/', 'SiteController@home');
 Route::get('/tos', 'SiteController@tos');
 Route::get('/dmca', 'SiteController@dmca');
 
-Route::any('/t/{filename}', 'ApiController@doImageResize');
+
+Route::get('/v/{imageid}', 'SiteController@doViewer');
+Route::get('/t/{filename}', 'SiteController@doThumbnail');
+Route::get('/i/{filename}', 'SiteController@doImage');
 
 /*
  * API Routes

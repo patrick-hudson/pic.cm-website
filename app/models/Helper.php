@@ -316,4 +316,22 @@ class Helper {
         return $xml->asXML();
     }
 
+    public static function formatBytes($bytes, $precision = 2) {
+        if ($bytes >= 1073741824) {
+            $bytes = round($bytes / 1073741824, $precision) . ' GB';
+        } elseif ($bytes >= 1048576) {
+            $bytes = round($bytes / 1048576, $precision) . ' MB';
+        } elseif ($bytes >= 1024) {
+            $bytes = round($bytes / 1024, $precision) . ' KB';
+        } elseif ($bytes > 1) {
+            $bytes = $bytes . ' bytes';
+        } elseif ($bytes == 1) {
+            $bytes = $bytes . ' byte';
+        } else {
+            $bytes = '0 bytes';
+        }
+
+        return $bytes;
+    }
+
 }

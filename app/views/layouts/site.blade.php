@@ -13,7 +13,8 @@
         <!-- Bootstrap core CSS -->
         <link href="/assets/css/bootstrap.css" rel="stylesheet">
         <link href="/assets/css/style.css" rel="stylesheet">
-
+        <link href="http://bootswatch.com/amelia/bootstrap.css" rel="stylesheet">
+        
         <!-- Custom Google Web Font -->
         <link href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic" rel="stylesheet" type="text/css">
 
@@ -24,7 +25,7 @@
 
     <body>
         <div class="wrapper">
-            <nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
                 @section('navbar')
                 <div class="container">
                     <div class="navbar-header">

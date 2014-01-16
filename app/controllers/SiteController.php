@@ -1,14 +1,142 @@
 <?php
 
 class SiteController extends BaseController {
+
     public function home() {
         return View::make('site.home');
     }
+
     public function tos() {
         return View::make('site.tos');
     }
+
     public function dmca() {
         return View::make('site.dmca');
+    }
+
+    public function doViewer($imageid) {
+        $imgid = Helper::ImageID($imageid, 'decode');
+        $image = DB::table('user_images')->where('imageid', $imgid)->get();
+        if (count($image)) {
+            return View::make('site.viewer', array('imageid' => $imageid, 'image' => $image));
+        } else
+            App::abort(404);
+    }
+
+    public function doThumbnail($filename) {
+        $thumb_width = 350;
+        $thumb_height = 300;
+
+        /* Set Filenames */
+        $image_path = storage_path('images/raw') . '/' . $filename;
+        $target_path = storage_path('images/thumbs') . '/' . $filename;
+
+        if (File::exists($image_path)) {
+            if (!File::exists($target_path)) {
+                if (!(is_integer($thumb_width) && $thumb_width > 0) && !($thumb_width === "*")) {
+                    echo "The width is invalid";
+                    exit(1);
+                }
+
+                if (!(is_integer($thumb_height) && $thumb_height > 0) && !($thumb_height === "*")) {
+                    echo "The height is invalid";
+                    exit(1);
+                }
+
+                $extension = pathinfo($image_path, PATHINFO_EXTENSION);
+                switch ($extension) {
+                    case "jpg":
+                    case "jpeg":
+                        $source_image = imagecreatefromjpeg($image_path);
+                        break;
+                    case "gif":
+                        $source_image = imagecreatefromgif($image_path);
+                        break;
+                    case "png":
+                        $source_image = imagecreatefrompng($image_path);
+                        break;
+                    default:
+                        exit(1);
+                        break;
+                }
+
+                $source_width = imageSX($source_image);
+                $source_height = imageSY($source_image);
+
+                if (($source_width / $source_height) == ($thumb_width / $thumb_height)) {
+                    $source_x = 0;
+                    $source_y = 0;
+                }
+
+                if (($source_width / $source_height) > ($thumb_width / $thumb_height)) {
+                    $source_y = 0;
+                    $temp_width = $source_height * $thumb_width / $thumb_height;
+                    $source_x = ($source_width - $temp_width) / 2;
+                    $source_width = $temp_width;
+                }
+
+                if (($source_width / $source_height) < ($thumb_width / $thumb_height)) {
+                    $source_x = 0;
+                    $temp_height = $source_width * $thumb_height / $thumb_width;
+                    $source_y = ($source_height - $temp_height) / 2;
+                    $source_height = $temp_height;
+                }
+
+                $target_image = ImageCreateTrueColor($thumb_width, $thumb_height);
+
+                imagecopyresampled($target_image, $source_image, 0, 0, $source_x, $source_y, $thumb_width, $thumb_height, $source_width, $source_height);
+
+                switch ($extension) {
+                    case "jpg":
+                    case "jpeg":
+                        imagejpeg($target_image, $target_path);
+                        break;
+                    case "gif":
+                        imagegif($target_image, $target_path);
+                        break;
+                    case "png":
+                        imagepng($target_image, $target_path);
+                        break;
+                    default:
+                        exit(1);
+                        break;
+                }
+
+                imagedestroy($target_image);
+                imagedestroy($source_image);
+            }
+
+            $imginfo = getimagesize($target_path);
+            $response = Response::make(file_get_contents($target_path), 200);
+            $response->header('Content-Type', $imginfo['mime']);
+
+            $fid = explode('.', $filename);
+            DB::statement('UPDATE `user_images` SET `thumb_views` = `thumb_views` + 1 WHERE `imageid` = ' . Helper::ImageID($fid[0], 'decode'));
+
+            return $response;
+        } else
+            App::abort(404);
+    }
+
+    public function doImage($filename) {
+        $target_path = storage_path('images/raw/') . $filename;
+
+        if (File::exists($target_path)) {
+            if (Input::get('dl')) {
+                return Response::download($target_path);
+            } else {
+                $imginfo = getimagesize($target_path);
+                $response = Response::make(file_get_contents($target_path), 200);
+                $response->header('Content-Type', $imginfo['mime']);
+
+                $fid = explode('.', $filename);
+                DB::statement('UPDATE `user_images` SET `full_views` = `full_views` + 1 WHERE `imageid` = ' . Helper::ImageID($fid[0], 'decode'));
+                
+                return $response;
+            }
+        } else {
+            App::abort(404);
+        }
     }
 
 }

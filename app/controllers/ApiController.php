@@ -40,7 +40,7 @@ class ApiController extends Controller {
                         $return['image']['name'] = Helper::ImageID($id);
 
                         //unlink($tmpfname);
-                        File::move($tmpfname, public_path() . '/i/' . $return['image']['name'] . '.' . $return['image']['type']);
+                        File::move($tmpfname, storage_path('images/raw') . '/' . $return['image']['name'] . '.' . $return['image']['type']);
                     } else {
                         $return['code'] = 400;
                         $return['message'] = "Missing data from request";
@@ -69,96 +69,17 @@ class ApiController extends Controller {
         return Redirect::to('/m/account');
     }
 
-    public static function doImageResize($filename) {
-
-        $thumb_width = 380;
-        $thumb_height = 380;
-
-        /* Set Filenames */
-        $image_path = public_path() . '/i/' . $filename;
-        $target_path = public_path() . '/i/t/' . $filename;
-
-        if (!File::exists($target_path)) {
-            if (!(is_integer($thumb_width) && $thumb_width > 0) && !($thumb_width === "*")) {
-                echo "The width is invalid";
-                exit(1);
-            }
-
-            if (!(is_integer($thumb_height) && $thumb_height > 0) && !($thumb_height === "*")) {
-                echo "The height is invalid";
-                exit(1);
-            }
-
-            $extension = pathinfo($image_path, PATHINFO_EXTENSION);
-            switch ($extension) {
-                case "jpg":
-                case "jpeg":
-                    $source_image = imagecreatefromjpeg($image_path);
-                    break;
-                case "gif":
-                    $source_image = imagecreatefromgif($image_path);
-                    break;
-                case "png":
-                    $source_image = imagecreatefrompng($image_path);
-                    break;
-                default:
-                    exit(1);
-                    break;
-            }
-
-            $source_width = imageSX($source_image);
-            $source_height = imageSY($source_image);
-
-            if (($source_width / $source_height) == ($thumb_width / $thumb_height)) {
-                $source_x = 0;
-                $source_y = 0;
-            }
-
-            if (($source_width / $source_height) > ($thumb_width / $thumb_height)) {
-                $source_y = 0;
-                $temp_width = $source_height * $thumb_width / $thumb_height;
-                $source_x = ($source_width - $temp_width) / 2;
-                $source_width = $temp_width;
-            }
-
-            if (($source_width / $source_height) < ($thumb_width / $thumb_height)) {
-                $source_x = 0;
-                $temp_height = $source_width * $thumb_height / $thumb_width;
-                $source_y = ($source_height - $temp_height) / 2;
-                $source_height = $temp_height;
-            }
-
-            $target_image = ImageCreateTrueColor($thumb_width, $thumb_height);
-
-            imagecopyresampled($target_image, $source_image, 0, 0, $source_x, $source_y, $thumb_width, $thumb_height, $source_width, $source_height);
-
-            switch ($extension) {
-                case "jpg":
-                case "jpeg":
-                    imagejpeg($target_image, $target_path);
-                    break;
-                case "gif":
-                    imagegif($target_image, $target_path);
-                    break;
-                case "png":
-                    imagepng($target_image, $target_path);
-                    break;
-                default:
-                    exit(1);
-                    break;
-            }
-
-            imagedestroy($target_image);
-            imagedestroy($source_image);
-        }
-        header('content-type: image/png;');
-        echo file_get_contents($target_path);
-    }
-
     public static function doAjaxRequest() {
+        $return = array();
         if (Input::get('action')) {
             if (Input::get('action') == 'deleteupload' && Input::get('fileid') != null) {
-                $return = Api::doDeleteFile(Input::get('fileid'));
+                if (count(Input::get('fileid')) == 1) {
+                    $return = Api::doDeleteFile(Input::get('fileid'));
+                } else {
+                    foreach (Input::get('fileid') as $file) {
+                        array_push($return, Api::doDeleteFile($file));
+                    }
+                }
             } else {
                 $return['code'] = 400;
                 $return['message'] = "Missing file id from request";

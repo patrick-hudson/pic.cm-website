@@ -28,6 +28,7 @@
         <![endif]-->
         <link rel="stylesheet" href="/assets/plugins/fullcalendar/fullcalendar/fullcalendar.css">
         <link rel="shortcut icon" href="/favicon.ico" />
+        @yield('styles')
     </head>
     <body>
         <!-- start: HEADER -->
@@ -43,6 +44,7 @@
                 </div>
                 <div class="navbar-tools">
                     <ul class="nav navbar-right">
+                        @yield('navright')
                         <li class="dropdown current-user">
                             <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
                                 <span class="username">{{ Auth::User()->username }}</span>

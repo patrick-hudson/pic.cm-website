@@ -6,6 +6,38 @@
     <div class="col-sm-6 col-md-4">
         <div class="panel panel-default">
             <div class="panel-heading">
+                <i class="clip-book"></i>
+                Account Stats
+            </div>
+            <div class="panel-body">
+                @if($stats = User::userStats(Auth::user()->id))
+                <table class='table table-bordered table-stripe'>
+                    <tr>
+                        <th class="col-md-4">Total Images</th>
+                        <td>{{ $stats[0]->totalimg }}</td>
+                    </tr>
+                    <tr>
+                        <th>Space Used</th>
+                        <td>{{ Helper::formatBytes($stats[0]->totalsize) }}</td>
+                    </tr>
+                    <tr>
+                        <th>Total Thumbnail Views</th>
+                        <td>{{ $stats[0]->totalthmbviews }}</td>
+                    </tr>
+                    <tr>
+                        <th>Total Image Views</th>
+                        <td>{{ $stats[0]->totalimgviews }}</td>
+                    </tr>
+                </table>
+                @elseif
+
+                @endif
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
                 <i class="clip-cog"></i>
                 General Settings
             </div>
@@ -37,8 +69,7 @@
                 {{ Form::close() }}
             </div>
         </div>
-    </div>
-    <div class="col-sm-6 col-md-4">
+
         <div class="panel panel-default">
             <div class="panel-heading">
                 <i class="clip-key"></i>
