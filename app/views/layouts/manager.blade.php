@@ -47,6 +47,7 @@
                         @yield('navright')
                         <li class="dropdown current-user">
                             <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
+                                <img src="{{ Helper::get_gravatar(Auth::User()->email, 30) }}" class="circle-img" alt="">
                                 <span class="username">{{ Auth::User()->username }}</span>
                                 <i class="clip-chevron-down"></i>
                             </a>
@@ -94,16 +95,6 @@
                         <div class="col-sm-12">
                             <ol class="breadcrumb">
                                 @yield('breadcrumb')
-                                <li class="search-box">
-                                    <form class="sidebar-search">
-                                        <div class="form-group">
-                                            <input type="text" placeholder="Start Searching...">
-                                            <button class="submit">
-                                                <i class="clip-search-3"></i>
-                                            </button>
-                                        </div>
-                                    </form>
-                                </li>
                             </ol>
                             <div class="page-header">
                                 @yield('pagetitle')

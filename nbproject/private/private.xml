@@ -3,14 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/views/layouts/manager.blade.php</file>
-            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/views/manager/dashboard.blade.php</file>
-            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/views/site/viewer.blade.php</file>
-            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/views/manager/account.blade.php</file>
-            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/models/Api.php</file>
-            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/models/Helper.php</file>
-            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/views/layouts/site.blade.php</file>
-            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/controllers/SiteController.php</file>
+            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/vendor/zizaco/confide/README.md</file>
+            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/vendor/zizaco/entrust/README.md</file>
+            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/database/migrations/2014_01_16_225726_confide_setup_users_table.php</file>
+            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/database/seeds/DatabaseSeeder.php</file>
+            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/routes.php</file>
+            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/config/app.php</file>
+            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/vendor/autoload.php</file>
+            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/controllers/UserController.php</file>
+            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/composer.json</file>
         </group>
     </open-files>
 </project-private>

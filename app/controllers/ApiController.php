@@ -73,12 +73,8 @@ class ApiController extends Controller {
         $return = array();
         if (Input::get('action')) {
             if (Input::get('action') == 'deleteupload' && Input::get('fileid') != null) {
-                if (count(Input::get('fileid')) == 1) {
-                    $return = Api::doDeleteFile(Input::get('fileid'));
-                } else {
-                    foreach (Input::get('fileid') as $file) {
-                        array_push($return, Api::doDeleteFile($file));
-                    }
+                foreach (Input::get('fileid') as $file) {
+                    array_push($return, Api::doDeleteFile($file));
                 }
             } else {
                 $return['code'] = 400;

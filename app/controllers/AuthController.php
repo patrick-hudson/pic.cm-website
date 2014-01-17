@@ -3,7 +3,7 @@
 class AuthController extends Controller {
 
     public function doLogout() {
-        Session::flush(); // clear the session
+        Auth::logout();
         return Redirect::to('/m/login'); // redirect the user to the login screen
     }
 

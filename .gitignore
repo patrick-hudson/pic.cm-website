@@ -1,5 +1,10 @@
 /bootstrap/compiled.php
 
+#netbeans specific
+nbproject/*
+!nbproject/project.properties
+!nbproject/project.xml
+
 /vendor
 composer.phar
 composer.lock

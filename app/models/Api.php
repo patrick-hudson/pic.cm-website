@@ -20,6 +20,7 @@ class Api {
 
     public static function doDeleteFile($imageid) {
         $return = array(
+            'filename' => $imageid,
             'code' => 404,
             'message' => 'File does not exist'
         );
@@ -39,19 +40,19 @@ class Api {
 
             if ($userfiles) {
                 $delete_files = array();
-                $pp = public_path();
 
-                if (File::exists($pp . '/i/' . $imageid . '.' . $userfiles[0]->mimetype))
-                    array_push($delete_files, $pp . '/i/' . $imageid . '.' . $userfiles[0]->mimetype);
+                if (File::exists(storage_path('images/raw/') . $imageid . '.' . $userfiles[0]->mimetype))
+                    array_push($delete_files, storage_path('images/raw/') . $imageid . '.' . $userfiles[0]->mimetype);
 
-                if (File::exists($pp . '/t/' . $imageid . '.' . $userfiles[0]->mimetype))
-                    array_push($delete_files, $pp . '/t/' . $imageid . '.' . $userfiles[0]->mimetype);
+                if (File::exists(storage_path('images/thumbs/') . $imageid . '.' . $userfiles[0]->mimetype))
+                    array_push($delete_files, storage_path('images/thumbs/') . $imageid . '.' . $userfiles[0]->mimetype);
 
                 File::delete($delete_files);
                 DB::table('user_images')->where('imageid', $dbid)->delete();
 
 
                 $return = array(
+                    'filename' => $imageid,
                     'code' => 200,
                     'message' => 'The requested file has been sent to the NSA for processing'
                 );

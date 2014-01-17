@@ -4,16 +4,16 @@
 
 @section('content')
 <div class="row">
-    <form action="/ajax?action=deleteupload" autocomplete="off">
+    <form autocomplete="off" id="imgcontainer">
         @if($images = User::getImages())
         @foreach ($images as $image)
-        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 gallery-img" id="gal{{ Helper::ImageID($image->imageid) }}">
-            <div class="thumbnail" id="img{{$image->imageid}}">
-                <div class="wrap-image" id="wrap{{$image->imageid}}">
-                    <a class="cboxElement" href="/i/{{ Helper::ImageID($image->imageid) }}.{{ $image->mimetype }}" target="_blank">
+        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 gallery-img" id="img_{{ Helper::ImageID($image->imageid) }}">
+            <div class="thumbnail">
+                <div class="wrap-image">
+                    <a href="/i/{{ Helper::ImageID($image->imageid) }}.{{ $image->mimetype }}" target="_blank">
                         <img src="/t/{{ Helper::ImageID($image->imageid) }}.{{ $image->mimetype }}" alt="" class="img-responsive">
                     </a>
-                    <input class="chkbox" type="checkbox" name="fileid[]" id="{{$image->imageid}}" value="{{ Helper::ImageID($image->imageid) }}" />
+                    <input name="fileid[]" class="chkbox" id="cb" value="{{ Helper::ImageID($image->imageid) }}" type="checkbox">
                 </div>
                 <div class="caption">
                     <div class="tools tools-bottom">
@@ -33,6 +33,9 @@
 
 @section('breadcrumb')
 <li>You currently have {{ count($images); }} files</li>
+<li class="search-box">
+    <input id="delbut" class="btn btn-danger btn-sm" type="button" />
+</li>
 @stop
 
 @section('navright')
@@ -60,30 +63,37 @@
             removeImage(imgid);
         });
 
-        $('.chkbox').change(function() {
-            if ($(this).is(":checked")) {
-                $('#img' + $(this).attr('id')).addClass('selected');
-                $('#wrap' + $(this).attr('id')).addClass('selected');
+        $('.wrap-image .chkbox').bind('click', function() {
+            if ($(this).parent().hasClass('selected')) {
+                $(this).parent().removeClass('selected').removeClass('selected');
+                imgcnt--;
+            } else {
+                $(this).parent().addClass('selected');
                 imgcnt++;
             }
-            else {
-                $('#img' + $(this).attr('id')).removeClass('selected');
-                $('#wrap' + $(this).attr('id')).removeClass('selected');
-                imgcnt--;
-            }
-
-            if (imgcnt > 0) {
-                $('#delbut').attr('value', 'Delete selected (' + imgcnt + ') images').removeClass('disabled');
-            } else {
-                $('#delbut').attr('value', 'Delete selected (' + imgcnt + ') images').addClass('disabled');
-                ;
-            }
+            $('#delbut').attr('value', 'Delete selected (' + imgcnt + ') images');
         });
+    });
+
+    $('#delbut').click(function() {
+        $.ajax({
+            url: '/ajax?action=deleteupload',
+            method: 'GET',
+            data: $('#imgcontainer').serialize()
+        }).done(function(response) {
+            $.each(response, function(idx, file) {
+                removeImage(file.filename);
+            });
+        }).fail(function() {
+
+        });
+
+        return false; // avoid to execute the actual submit of the form.
     });
 
 
     function removeImage(imageid) {
-        $('#gal' + imageid).fadeOut(500);
+        $('#img_' + imageid).fadeOut(500);
     }
 </script>
 @stop
