@@ -33,7 +33,7 @@ App::after(function($request, $response) {
 
 Route::filter('auth', function() {
     if (Auth::guest())
-        return Redirect::guest('/m/login');
+        return Redirect::guest('/user/login');
 });
 
 
@@ -54,7 +54,7 @@ Route::filter('auth.basic', function() {
 
 Route::filter('guest', function() {
     if (Auth::check())
-        return Redirect::to('/m');
+        return Redirect::to('/user');
 });
 
 /*
@@ -71,5 +71,17 @@ Route::filter('guest', function() {
 Route::filter('csrf', function() {
     if (Session::token() != Input::get('_token')) {
         throw new Illuminate\Session\TokenMismatchException;
+    }
+});
+
+Route::filter('notSuspended', function() {
+    if (Entrust::hasRole('Suspended')) { // Checks the current user
+        return View::make('errors.suspended');
+    }
+});
+
+Route::filter('isAdmin', function() {
+    if (Entrust::hasRole('Administrator')) { // Checks the current user
+        return View::make('errors.suspended');
     }
 });

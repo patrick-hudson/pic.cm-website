@@ -11,40 +11,46 @@ class ApiController extends Controller {
         $return = array();
         if (Input::get('key') && Input::get('action')) {
             if ($userid = Api::checkApiKey(Input::get('key'))) {
-                if (Input::get('action') == 'upload') {
-                    if (Input::get('data')) {
-                        $tmpfname = tempnam(sys_get_temp_dir(), 'piccm_'); // good
+                $user = User::find(1);
+                if (!$user->hasRole('Suspended')) {
+                    if (Input::get('action') == 'upload') {
+                        if (Input::get('data')) {
+                            $tmpfname = tempnam(sys_get_temp_dir(), 'piccm_'); // good
 
-                        $fsock = fopen($tmpfname, "rw+");
-                        fwrite($fsock, base64_decode(Input::get('data')));
-                        fclose($fsock);
+                            $fsock = fopen($tmpfname, "rw+");
+                            fwrite($fsock, base64_decode(Input::get('data')));
+                            fclose($fsock);
 
-                        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                        $mimetype = finfo_file($finfo, $tmpfname);
-                        finfo_close($finfo);
+                            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                            $mimetype = finfo_file($finfo, $tmpfname);
+                            finfo_close($finfo);
 
 
-                        $return['image']['size'] = filesize($tmpfname);
-                        $return['image']['type'] = Helper::mimeToExt($mimetype);
-                        $return['code'] = 200;
+                            $return['image']['size'] = filesize($tmpfname);
+                            $return['image']['type'] = Helper::mimeToExt($mimetype);
+                            $return['code'] = 200;
 
-                        $id = DB::table('user_images')->insertGetId(
-                                array(
-                                    'imagesize' => $return['image']['size'],
-                                    'userid' => $userid,
-                                    'mimetype' => $return['image']['type'],
-                                    'uploaddate' => date("Y-m-d H:i:s")
-                                )
-                        );
+                            $id = DB::table('user_images')->insertGetId(
+                                    array(
+                                        'imagesize' => $return['image']['size'],
+                                        'userid' => $userid,
+                                        'mimetype' => $return['image']['type'],
+                                        'uploaddate' => date("Y-m-d H:i:s")
+                                    )
+                            );
 
-                        $return['image']['name'] = Helper::ImageID($id);
+                            $return['image']['name'] = Helper::ImageID($id);
 
-                        //unlink($tmpfname);
-                        File::move($tmpfname, storage_path('images/raw') . '/' . $return['image']['name'] . '.' . $return['image']['type']);
-                    } else {
-                        $return['code'] = 400;
-                        $return['message'] = "Missing data from request";
+                            //unlink($tmpfname);
+                            File::move($tmpfname, storage_path('images/raw') . '/' . $return['image']['name'] . '.' . $return['image']['type']);
+                        } else {
+                            $return['code'] = 400;
+                            $return['message'] = "Missing data from request";
+                        }
                     }
+                } else {
+                    $return['code'] = 403;
+                    $return['message'] = "Account suspended";
                 }
             } else {
                 $return['code'] = 401;
@@ -66,7 +72,7 @@ class ApiController extends Controller {
 
         DB::statement('INSERT INTO `user_keys` (`userid`, `apikey`) VALUES (' . Auth::user()->id . ',\'' . $apikey . '\') ON DUPLICATE KEY UPDATE `apikey` = \'' . $apikey . '\'');
 
-        return Redirect::to('/m/account');
+        return Redirect::to(Confide::checkAction('UserController@accountSettings'));
     }
 
     public static function doAjaxRequest() {

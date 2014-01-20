@@ -2,16 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/vendor/zizaco/confide/README.md</file>
-            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/vendor/zizaco/entrust/README.md</file>
-            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/database/migrations/2014_01_16_225726_confide_setup_users_table.php</file>
-            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/database/seeds/DatabaseSeeder.php</file>
-            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/routes.php</file>
-            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/config/app.php</file>
-            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/vendor/autoload.php</file>
-            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/app/controllers/UserController.php</file>
-            <file>file:/E:/Netbeans%20Projects/Pic.cm-Website/composer.json</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

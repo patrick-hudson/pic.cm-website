@@ -17,14 +17,14 @@ class UserController extends BaseController {
      *
      */
     public function create() {
-        return View::make(Config::get('confide::signup_form'));
+        return View::make('auth.register');
     }
 
     /**
      * Stores new account
      *
      */
-    public function store() {
+    public function do_create() {
         $user = new User;
 
         $user->username = Input::get('username');
@@ -40,6 +40,8 @@ class UserController extends BaseController {
         $user->save();
 
         if ($user->id) {
+            $user = User::find($user->id);
+            $user1->attachRole(2);
             // Redirect with success message, You may replace "Lang::get(..." for your custom message.
             return Redirect::action('UserController@login')
                             ->with('notice', Lang::get('confide::confide.alerts.account_created'));
@@ -61,9 +63,9 @@ class UserController extends BaseController {
         if (Confide::user()) {
             // If user is logged, redirect to internal 
             // page, change it to '/admin', '/dashboard' or something
-            return Redirect::to('/');
+            return Redirect::to('/user');
         } else {
-            return View::make(Config::get('confide::login_form'));
+            return View::make('auth.login');
         }
     }
 
@@ -74,7 +76,7 @@ class UserController extends BaseController {
     public function do_login() {
         $input = array(
             'email' => Input::get('email'), // May be the username too
-            'username' => Input::get('email'), // so we have to pass both
+            'username' => Input::get('username'), // so we have to pass both
             'password' => Input::get('password'),
             'remember' => Input::get('remember'),
         );
@@ -88,7 +90,7 @@ class UserController extends BaseController {
             // caught by the authentication filter IE Redirect::guest('user/login').
             // Otherwise fallback to '/'
             // Fix pull #145
-            return Redirect::intended('/'); // change it to '/admin', '/dashboard' or something
+            return Redirect::intended('/user'); // change it to '/admin', '/dashboard' or something
         } else {
             $user = new User;
 
@@ -190,6 +192,14 @@ class UserController extends BaseController {
         Confide::logout();
 
         return Redirect::to('/');
+    }
+
+    public function doDashboard() {
+        return View::make('user.dashboard');
+    }
+
+    public function accountSettings() {
+        return View::make('user.account');
     }
 
 }

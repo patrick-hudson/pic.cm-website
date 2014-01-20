@@ -172,16 +172,10 @@ body, h1, h2, h3, h4, h5, h6 {
 }
 
 footer {
-    border-top: 1px solid #f8f8f8;
-    background-color: #f9f9f9;
+    background-color: #010a0c;
     padding: 50px 0; 
     height: 155px;
 }
-
-.list-inline, .list-inline li {
-    list-style: none;
-}
-
 p.copyright {
     margin: 15px 0 0;
 }

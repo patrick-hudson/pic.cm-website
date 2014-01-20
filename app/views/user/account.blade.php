@@ -1,4 +1,4 @@
-@extends('layouts.manager')
+@extends('layouts.user')
 @section('title', 'Account Settings')
 @section('pagetitle', '<h1>Account Settings</h1>')
 @section('content')
@@ -22,11 +22,11 @@
                     </tr>
                     <tr>
                         <th>Total Thumbnail Views</th>
-                        <td>{{ $stats[0]->totalthmbviews }}</td>
+                        <td>{{{ $stats[0]->totalthmbviews ? $stats[0]->totalthmbviews : '0' }}}</td>
                     </tr>
                     <tr>
                         <th>Total Image Views</th>
-                        <td>{{ $stats[0]->totalimgviews }}</td>
+                        <td>{{{ $stats[0]->totalimgviews ? $stats[0]->totalimgviews : '0' }}}</td>
                     </tr>
                 </table>
                 @elseif
@@ -42,7 +42,7 @@
                 General Settings
             </div>
             <div class="panel-body">
-                {{ Form::open(array('url' => '/m/account', 'class' => 'form-horizontal')) }}
+                {{ Form::open(array('url' => '/user/account', 'class' => 'form-horizontal')) }}
                 <div class="form-group">
                     <label class="col-sm-3 control-label">
                         Username
@@ -110,7 +110,7 @@
                 </div>
                 @else
                 <div class="alert alert-warning text-center">
-                    <p><strong>You don't have an upload key</strong><br /> <a href="/m/api/key_generate">Create</a> your upload key to get started!</p>
+                    <p><strong>You don't have an upload key</strong><br /> <a href="{{ Confide::checkAction('ApiController@doKeyGeneration') }}">Create</a> your upload key to get started!</p>
                 </div>
                 @endif
             </div>

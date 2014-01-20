@@ -31,6 +31,7 @@
         @yield('styles')
     </head>
     <body>
+
         <!-- start: HEADER -->
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
@@ -38,7 +39,7 @@
                     <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
                         <span class="clip-list-2"></span>
                     </button>
-                    <a class="navbar-brand" href="/m">
+                    <a class="navbar-brand" href="/user">
                         Pic.cm Manager
                     </a>
                 </div>
@@ -53,7 +54,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="/m/logout">
+                                    <a href="/user/logout">
                                         <i class="clip-exit"></i>
                                         &nbsp;Log Out
                                     </a>
@@ -73,18 +74,15 @@
                     </div>
                     <ul class="main-navigation-menu">
                         <li>
-                            <a href="/m"><i class="clip-home-3"></i>
+                            <a href="/user"><i class="clip-home-3"></i>
                                 <span class="title"> Dashboard </span>
                             </a>
                         </li>
                         <li>
-                            <a href="/m/account"><i class="clip-cog-2"></i>
+                            <a href="/user/account"><i class="clip-cog-2"></i>
                                 <span class="title"> Account </span>
                             </a>
                         </li>
-                        @if(Auth::User()->group > 1):
-                        <!-- TODO Admin menu -->
-                        @endif
                     </ul>
                 </div>
             </div>

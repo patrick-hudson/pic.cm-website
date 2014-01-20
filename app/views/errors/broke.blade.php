@@ -1,9 +1,15 @@
+
 <!DOCTYPE html>
+<!-- Template Name: Clip-One - Responsive Admin Template build with Twitter Bootstrap 3 Version: 1.2.3 Author: ClipTheme -->
+<!--[if IE 8]><html class="ie8 no-js" lang="en"><![endif]-->
+<!--[if IE 9]><html class="ie9 no-js" lang="en"><![endif]-->
+<!--[if !IE]><!-->
 <html lang="en" class="no-js">
     <!--<![endif]-->
     <!-- start: HEAD -->
     <head>
-        <title>@yield('title', 'Unknown Page') :: Pic.cm</title>
+        <title>Server Error :: Pic.cm</title>
+        <!-- start: META -->
         <meta charset="utf-8" />
         <!--[if IE]><meta http-equiv='X-UA-Compatible' content="IE=edge,IE=9,IE=8,chrome=1" /><![endif]-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
@@ -11,7 +17,8 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta content="" name="description" />
         <meta content="" name="author" />
-        
+        <!-- end: META -->
+        <!-- start: MAIN CSS -->
         <link rel="stylesheet" href="/assets/plugins/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="/assets/plugins/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="/assets/fonts/style.css">
@@ -25,20 +32,37 @@
         <!--[if IE 7]>
         <link rel="stylesheet" href="/assets/plugins/font-awesome/css/font-awesome-ie7.min.css">
         <![endif]-->
+        <!-- end: MAIN CSS -->
+        <link rel="shortcut icon" href="/favicon.ico" />
     </head>
-    <body class="login" style="background-image: url('/assets/images/bg_2.png');">
-        <div class="main-login col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
-            <div class="logo"><a href="/">Pic<i>.</i>cm</a></div>
-            <div class="box-login">
-                @yield('content')
-            </div>
-            <div class="copyright">
-
+    
+    <body class="error-full-page">
+        <div id="sound" style="z-index: -1;"></div>
+        <img id="background" src="" />
+        <div id="cholder">
+            <canvas id="canvas"></canvas>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 page-error">
+                    <div class="error-number teal">
+                        500
+                    </div>
+                    <div class="error-details col-sm-6 col-sm-offset-3">
+                        <h3>Server Error</h3>
+                        <p>
+                            Stop breaking things.<br />
+                            This is why we cant have nice things.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
+        <!-- end: PAGE -->
+        <!-- start: MAIN JAVASCRIPTS -->
         <!--[if lt IE 9]>
-        <script src="assets/plugins/respond.min.js"></script>
-        <script src="assets/plugins/excanvas.min.js"></script>
+        <script src="/assets/plugins/respond.min.js"></script>
+        <script src="/assets/plugins/excanvas.min.js"></script>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <![endif]-->
         <!--[if gte IE 9]><!-->
@@ -55,9 +79,17 @@
         <script src="/assets/plugins/jquery-cookie/jquery.cookie.js"></script>
         <script src="/assets/plugins/bootstrap-colorpalette/js/bootstrap-colorpalette.js"></script>
         <script src="/assets/js/main.js"></script>
-        <script src="/assets/plugins/jquery-validation/dist/jquery.validate.min.js"></script>
-        <script src="/assets/js/login.js"></script>
+        <!-- end: MAIN JAVASCRIPTS -->
+        <!-- start: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
+        <script src="/assets/plugins/rainyday/rainyday.js"></script>
+        <script src="/assets/js/utility-error404.js"></script>
         <!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
-        @yield('scripts')
+        <script>
+            jQuery(document).ready(function() {
+                Main.init();
+                Error404.init();
+            });
+        </script>
     </body>
+    <!-- end: BODY -->
 </html>

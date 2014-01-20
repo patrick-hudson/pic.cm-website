@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -9,15 +8,9 @@
         <meta name="author" content="">
 
         <title>@yield('title', 'Simple image hosting') :: Pic.cm</title>
-
-        <!-- Bootstrap core CSS -->
         <link href="/assets/css/bootstrap.css" rel="stylesheet">
         <link href="/assets/css/style.css" rel="stylesheet">
-        <link href="http://bootswatch.com/amelia/bootstrap.css" rel="stylesheet">
-        
-        <!-- Custom Google Web Font -->
         <link href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic" rel="stylesheet" type="text/css">
-
         <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="/assets/js/bootstrap.js"></script>
         @show
@@ -25,7 +18,7 @@
 
     <body>
         <div class="wrapper">
-            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
                 @section('navbar')
                 <div class="container">
                     <div class="navbar-header">
@@ -42,10 +35,10 @@
                     <div class="collapse navbar-collapse navbar-right navbar-ex1-collapse">
                         <ul class="nav navbar-nav">
                             @if(Auth::check())
-                            <li><a href="/m">Manager</a></li>
-                            <li><a href="/m/logout">Logout</a></li>
+                            <li><a href="/user">Manager</a></li>
+                            <li><a href="/user/logout">Logout</a></li>
                             @else
-                            <li><a href="/m/login">Login/Register</a></li>
+                            <li><a href="/user/login">Login/Register</a></li>
                             @endif
                         </ul>
                     </div><!-- /.navbar-collapse -->

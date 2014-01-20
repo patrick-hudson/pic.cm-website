@@ -1,11 +1,12 @@
 <?php
 
-use Illuminate\Auth\UserInterface;
-use Illuminate\Auth\Reminders\RemindableInterface;
+use Zizaco\Confide\ConfideUser;
+use Zizaco\Entrust\HasRole;
 
-class User extends Eloquent implements UserInterface, RemindableInterface {
+class User extends ConfideUser {
+    use HasRole; // Add this trait to your user model
 
-    protected $table = 'user';
+    protected $table = 'users';
     protected $hidden = array('password');
 
     public function getAuthIdentifier() {
@@ -41,7 +42,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         } else {
             $userstats = DB::select('SELECT COUNT(`imageid`) as totalimg, SUM(`imagesize`) as totalsize, SUM(`full_views`) as totalimgviews, SUM(`thumb_views`) as totalthmbviews FROM `user_images`');
         }
-        
+
         return $userstats;
     }
 

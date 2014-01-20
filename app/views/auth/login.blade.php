@@ -1,34 +1,32 @@
 @extends('layouts.auth')
-@section('title', 'Register')
+@section('title', 'Login')
 
 @section('content')
 <h3>Sign in to your account</h3>
 <p>Please enter your name and password to log in.</p>
-<form class="form-login" action="/m/login" method="post">
+<form class="form-login" action="/user/login" method="post">
     <input type="hidden" name="action" value="login">
     <div class="errorHandler alert alert-danger no-display">
         <i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
     </div>
-    @if(Session::has('message'))
-    <div class="alert alert-info">
-        <b>{{ Session::get('message') }}</b>
+    @if(Session::has('error'))
+    <div class="alert alert-danger">
+        <b>{{ Session::get('error') }}</b><br />
     </div>
     @endif
     <fieldset>
         <div class="form-group">
             <span class="input-icon">
-                <input type="email" class="form-control" name="email" placeholder="Email">
-                <i class="fa fa-user"></i> </span>
-            <!-- To mark the incorrectly filled input, you must add the class "error" to the input -->
-            <!-- example: <input type="text" class="login error" name="login" value="Username" /> -->
+                <input type="text" class="form-control" name="username" placeholder="Username">
+                <i class="fa fa-user"></i> 
+            </span>
         </div>
         <div class="form-group form-actions">
             <span class="input-icon">
                 <input type="password" class="form-control password" name="password" placeholder="Password">
                 <i class="fa fa-lock"></i>
-                <a href="/m/forgot">
-                    I forgot my password
-                </a></span>
+                <a href="/user/forgot_password">I forgot my password</a>
+            </span>
         </div>
         <div class="form-actions">
             <label for="remember" class="checkbox-inline">
@@ -41,7 +39,7 @@
         </div>
         <div class="new-account">
             Don't have an account yet?
-            <a href="/m/register">
+            <a href="/user/create">
                 Create an account
             </a>
         </div>

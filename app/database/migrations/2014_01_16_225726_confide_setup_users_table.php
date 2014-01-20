@@ -11,7 +11,7 @@ class ConfideSetupUsersTable extends Migration {
      */
     public function up() {
         // Creates the user table
-        Schema::create('user', function($table) {
+        Schema::create('users', function($table) {
             $table->increments('id');
             $table->string('username');
             $table->string('email');
@@ -36,7 +36,7 @@ class ConfideSetupUsersTable extends Migration {
      */
     public function down() {
         Schema::drop('password_reminders');
-        Schema::drop('user');
+        Schema::drop('users');
     }
 
 }
