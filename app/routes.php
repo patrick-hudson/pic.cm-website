@@ -67,3 +67,14 @@ Route::post('user/forgot_password', 'UserController@do_forgot_password');
 
 Route::get('user/reset_password/{token}', 'UserController@reset_password');
 Route::post('user/reset_password', 'UserController@do_reset_password');
+
+
+/*
+ * Admin Routes
+ */
+
+Route::get('user/admin', array('before' => 'auth', 'uses' => 'AdminController@doDashboard'));
+Route::get('user/admin/users', array('before' => 'auth', 'uses' => 'AdminController@doUsers'));
+Route::get('user/admin/user', array('before' => 'auth', 'uses' => 'AdminController@doUserDash'));
+Route::get('user/admin/user_edit', array('before' => 'auth', 'uses' => 'AdminController@editUser'));
+Route::post('user/admin/user_edit', array('before' => 'auth', 'uses' => 'AdminController@doEditUser'));

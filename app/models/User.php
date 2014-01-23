@@ -4,6 +4,7 @@ use Zizaco\Confide\ConfideUser;
 use Zizaco\Entrust\HasRole;
 
 class User extends ConfideUser {
+
     use HasRole; // Add this trait to your user model
 
     protected $table = 'users';
@@ -25,14 +26,16 @@ class User extends ConfideUser {
         return $this->group;
     }
 
-    public static function getImages($startpos = 0, $limit = 100) {
+    public static function getImages($userid = 0, $limit = 30) {
+        if ($userid == 0)
+            $userid = Auth::user()->id;
 
-        return $users = DB::table('user_images')
-                ->where('userid', Auth::user()->id)
+        $users = DB::table('user_images')
+                ->where('userid', $userid)
                 ->orderBy('imageid', 'desc')
-                ->skip($startpos)
-                ->take($limit)
-                ->get();
+                ->paginate($limit);
+
+        return $users;
     }
 
     public static function userStats($userid = 0) {

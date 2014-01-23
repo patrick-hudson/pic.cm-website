@@ -14,6 +14,11 @@
         <b>{{ Session::get('error') }}</b><br />
     </div>
     @endif
+    @if(Session::has('notice'))
+    <div class="alert alert-info">
+        <b>{{ Session::get('notice') }}</b><br />
+    </div>
+    @endif
     <fieldset>
         <div class="form-group">
             <span class="input-icon">

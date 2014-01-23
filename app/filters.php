@@ -75,13 +75,13 @@ Route::filter('csrf', function() {
 });
 
 Route::filter('notSuspended', function() {
-    if (Entrust::hasRole('Suspended')) { // Checks the current user
+    if (Entrust::hasRole('Suspended')) {
         return View::make('errors.suspended');
     }
 });
 
 Route::filter('isAdmin', function() {
-    if (Entrust::hasRole('Administrator')) { // Checks the current user
-        return View::make('errors.suspended');
+    if (!Entrust::hasRole('Administrator')) {
+        return Redirect::guest('/user');
     }
 });

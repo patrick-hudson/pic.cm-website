@@ -41,8 +41,10 @@ class UserController extends BaseController {
 
         if ($user->id) {
             $user = User::find($user->id);
-            $user1->attachRole(2);
-            // Redirect with success message, You may replace "Lang::get(..." for your custom message.
+            $user->attachRole(2);
+            $user->save();
+
+
             return Redirect::action('UserController@login')
                             ->with('notice', Lang::get('confide::confide.alerts.account_created'));
         } else {

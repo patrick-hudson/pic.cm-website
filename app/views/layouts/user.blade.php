@@ -31,8 +31,6 @@
         @yield('styles')
     </head>
     <body>
-
-        <!-- start: HEADER -->
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -73,17 +71,46 @@
                         <i class="clip-chevron-right"></i>
                     </div>
                     <ul class="main-navigation-menu">
-                        <li>
-                            <a href="/user"><i class="clip-home-3"></i>
-                                <span class="title"> Dashboard </span>
+                        <li class="open">
+                            <a href="javascript:void(0)"><i class="clip-user"></i>
+                                <span class="title"> Dashboard </span><i class="icon-arrow"></i>
+                                <span class="selected"></span>
                             </a>
+                            <ul style="display: block;" class="sub-menu">
+                                <li>
+                                    <a href="/user"><i class="clip-home-3"></i>
+                                        <span class="title"> Uploaded Images </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/user/account"><i class="clip-user-2"></i>
+                                        <span class="title"> Account </span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        <li>
-                            <a href="/user/account"><i class="clip-cog-2"></i>
-                                <span class="title"> Account </span>
+                        @if(Entrust::hasRole('Administrator'))
+                        <li class="open">
+                            <a href="javascript:void(0)"><i class="clip-globe"></i>
+                                <span class="title"> Administration </span><i class="icon-arrow"></i>
+                                <span class="selected"></span>
                             </a>
+                            <ul style="display: block;" class="sub-menu">
+                                <li>
+                                    <a href="/user/admin"><i class="clip-home-3"></i>
+                                        <span class="title"> Dashboard </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/user/admin/users"><i class="clip-user-2"></i>
+                                        <span class="title"> Users </span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
+                        @endif
                     </ul>
+
                 </div>
             </div>
 
@@ -147,7 +174,7 @@
         @yield('scripts')
         <!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
         <script>
-jQuery(document).ready(function() {
+$(document).ready(function() {
     Main.init();
 });
         </script>
