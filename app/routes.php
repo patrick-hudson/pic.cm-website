@@ -12,7 +12,7 @@
 //            return Response::view('errors.missing', array(), 404);
 //
 //        case 500:
-//            return Response::view('errors.broke', array(), 500);
+//            return Response::view('errors.serverbroke', array(), 500);
 //
 //        default:
 //            return Response::view('errors.default', array('code' => $code), $code);
@@ -62,19 +62,22 @@ Route::post('user/create', array('before' => 'guest', 'uses' => 'UserController@
 Route::get('user/login', array('before' => 'guest', 'uses' => 'UserController@login'));
 Route::post('user/login', array('before' => 'guest', 'uses' => 'UserController@do_login'));
 
-Route::get('user/forgot_password', 'UserController@forgot_password');
-Route::post('user/forgot_password', 'UserController@do_forgot_password');
+Route::get('user/forgot_password', 'UserController@forgotPassword');
+Route::post('user/forgot_password', 'UserController@doForgotPassword');
 
 Route::get('user/reset_password/{token}', 'UserController@reset_password');
 Route::post('user/reset_password', 'UserController@do_reset_password');
-
 
 /*
  * Admin Routes
  */
 
 Route::get('user/admin', array('before' => 'auth', 'uses' => 'AdminController@doDashboard'));
-Route::get('user/admin/users', array('before' => 'auth', 'uses' => 'AdminController@doUsers'));
-Route::get('user/admin/user', array('before' => 'auth', 'uses' => 'AdminController@doUserDash'));
+
+Route::get('user/admin/users', array('before' => 'auth', 'uses' => 'AdminController@listUsers'));
+Route::post('user/admin/users', array('before' => 'auth', 'uses' => 'AdminController@listUsersSearch'));
+
+Route::get('user/admin/user_images', array('before' => 'auth', 'uses' => 'AdminController@listUserImages'));
+
 Route::get('user/admin/user_edit', array('before' => 'auth', 'uses' => 'AdminController@editUser'));
 Route::post('user/admin/user_edit', array('before' => 'auth', 'uses' => 'AdminController@doEditUser'));

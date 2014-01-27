@@ -44,23 +44,24 @@
                 Last 5 Uploads
             </div>
             <div class="panel-body">
-                <table class="table">
+                <ul class="list-group">
                     @foreach($images as $image)
-                    <tr>
-                        <td>
+                    <li class="list-group-item clearfix">
+                        <div class="col-sm-3">
                             <a href="/v/{{ Helper::ImageID($image->imageid) }}">
                                 <img src="/t/{{ Helper::ImageID($image->imageid) }}.{{ $image->mimetype }}" class="img-responsive" style="max-width: 100px;" />
                             </a>
-                        </td>
-                        <td>
+                        </div>
+                        <div class="col-sm-9">
                             <ul>
                                 <li>Uploaded by: {{ $image->username }} <small>({{long2ip($image->address)}})</small></li>
+                                <li>Time Uploaded: {{ $image->uploaddate }} <small>UTC</small></li>
                                 <li>File Size: {{ Helper::formatBytes($image->imagesize) }}</li>
                             </ul>
-                        </td>
-                    </tr>
+                        </div>
+                    </li>
                     @endforeach
-                </table>
+                </ul>
             </div>
         </div>
     </div>

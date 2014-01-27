@@ -5,20 +5,6 @@
 <h3>Sign Up</h3>
 <p>Enter your account details below:</p>
 <form class="form-register" action="/user/create" method="post">
-    @if(Session::has('error'))
-    <div class="alert alert-danger">
-        @foreach(Session::get('error') as $error)
-        <b>{{ $error }}</b><br />
-        @endforeach
-    </div>
-    @endif
-    @if(Session::has('notice'))
-    <div class="alert alert-info">
-        @foreach(Session::get('notice') as $notice)
-        <b>{{ $notice }}</b><br />
-        @endforeach
-    </div>
-    @endif
     <fieldset>
         <div class="form-group">
             <span class="input-icon">
@@ -49,6 +35,12 @@
                 Register <i class="fa fa-arrow-circle-right"></i>
             </button>
         </div>
+        <div class="new-account">
+            Already have an account?
+            <a href="{{ action('UserController@login') }}">
+                Sign in
+            </a>
+        </div>
     </fieldset>
-</form
+</form>
 @stop

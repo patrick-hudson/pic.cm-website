@@ -63,8 +63,6 @@ class UserController extends BaseController {
      */
     public function login() {
         if (Confide::user()) {
-            // If user is logged, redirect to internal 
-            // page, change it to '/admin', '/dashboard' or something
             return Redirect::to('/user');
         } else {
             return View::make('auth.login');
@@ -132,22 +130,22 @@ class UserController extends BaseController {
      * Displays the forgot password form
      *
      */
-    public function forgot_password() {
-        return View::make(Config::get('confide::forgot_password_form'));
+    public function forgotPassword() {
+        return View::make('auth.forgot');
     }
 
     /**
      * Attempt to send change password link to the given email
      *
      */
-    public function do_forgot_password() {
+    public function doForgotPassword() {
         if (Confide::forgotPassword(Input::get('email'))) {
             $notice_msg = Lang::get('confide::confide.alerts.password_forgot');
             return Redirect::action('UserController@login')
                             ->with('notice', $notice_msg);
         } else {
             $error_msg = Lang::get('confide::confide.alerts.wrong_password_forgot');
-            return Redirect::action('UserController@forgot_password')
+            return Redirect::action('UserController@forgotPassword')
                             ->withInput()
                             ->with('error', $error_msg);
         }
@@ -158,7 +156,7 @@ class UserController extends BaseController {
      *
      */
     public function reset_password($token) {
-        return View::make(Config::get('confide::reset_password_form'))
+        return View::make('auth.reset')
                         ->with('token', $token);
     }
 
@@ -197,7 +195,16 @@ class UserController extends BaseController {
     }
 
     public function doDashboard() {
-        return View::make('user.dashboard');
+        $sort = (Input::get('sort') ? Input::get('sort') : 'imageid');
+        $order = (Input::get('order') ? Input::get('order') : 'desc');
+        return View::make('user.dashboard')
+                        ->with(
+                                array(
+                                    'images' => User::getImages(0, 30, $order, $sort),
+                                    'order' => $order,
+                                    'sort' => $sort,
+                                )
+        );
     }
 
     public function accountSettings() {

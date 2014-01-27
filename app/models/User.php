@@ -26,16 +26,36 @@ class User extends ConfideUser {
         return $this->group;
     }
 
-    public static function getImages($userid = 0, $limit = 30) {
-        if ($userid == 0)
-            $userid = Auth::user()->id;
+    /**
+     * Returns an array of image data based on input paramaters
+     * 
+     * @param int    $userid    The id of the user to get images from
+     * @param int    $limit     The number of images per page
+     * @param string $order     The order of images to be retreived in (DESCending, ASCending)
+     * @param string $sort      The row to be sorted by (imageid, filesize, full_views, thumb_views)
+     *
+     * @return array            The mysql result array
+     */
+    public static function getImages($userid = 0, $limit = 30, $order = 'desc', $sort = 'imageid') {
 
-        $users = DB::table('user_images')
-                ->where('userid', $userid)
-                ->orderBy('imageid', 'desc')
-                ->paginate($limit);
+        if ($userid == 0) {
+            $images = DB::table('user_images')
+                    ->orderBy($sort, $order)
+                    ->where('userid', Auth::user()->id)
+                    ->paginate($limit);
+        } elseif ($userid > 0) {
+            $images = DB::table('user_images')
+                    ->orderBy($sort, $order)
+                    ->where('userid', $userid)
+                    ->paginate($limit);
+        } else {
+            $images = DB::table('user_images')
+                    ->orderBy($sort, $order)
+                    ->paginate($limit);
+        }
 
-        return $users;
+
+        return $images;
     }
 
     public static function userStats($userid = 0) {

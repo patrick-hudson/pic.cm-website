@@ -13,21 +13,20 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta content="" name="description" />
         <meta content="" name="author" />
-        <link rel="stylesheet" href="/assets/plugins/bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/assets/plugins/font-awesome/css/font-awesome.min.css">
-        <link rel="stylesheet" href="/assets/fonts/style.css">
-        <link rel="stylesheet" href="/assets/css/main.css">
-        <link rel="stylesheet" href="/assets/css/main-responsive.css">
-        <link rel="stylesheet" href="/assets/plugins/iCheck/skins/all.css">
-        <link rel="stylesheet" href="/assets/plugins/bootstrap-colorpalette/css/bootstrap-colorpalette.css">
-        <link rel="stylesheet" href="/assets/plugins/perfect-scrollbar/src/perfect-scrollbar.css">
-        <link rel="stylesheet" href="/assets/css/manager.css" type="text/css" id="skin_color">
-        <link rel="stylesheet" href="/assets/css/print.css" type="text/css" media="print"/>
+        <link rel="stylesheet" href="/assets/plugins/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/assets/plugins/font-awesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="/assets/fonts/style.css" />
+        <link rel="stylesheet" href="/assets/css/main.css" />
+        <link rel="stylesheet" href="/assets/css/main-responsive.css" />
+        <link rel="stylesheet" href="/assets/plugins/iCheck/skins/all.css" />
+        <link rel="stylesheet" href="/assets/plugins/bootstrap-colorpalette/css/bootstrap-colorpalette.css" />
+        <link rel="stylesheet" href="/assets/plugins/perfect-scrollbar/src/perfect-scrollbar.css" />
+        <link rel="stylesheet" href="/assets/css/manager.css" type="text/css" />
+        <link rel="stylesheet" href="/assets/css/print.css" type="text/css" media="print" />
         <!--[if IE 7]>
         <link rel="stylesheet" href="/assets/plugins/font-awesome/css/font-awesome-ie7.min.css">
         <![endif]-->
-        <link rel="stylesheet" href="/assets/plugins/fullcalendar/fullcalendar/fullcalendar.css">
-        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="shortcut icon" href="/assets/favicon.ico" />
         @yield('styles')
     </head>
     <body>
@@ -78,12 +77,12 @@
                             </a>
                             <ul style="display: block;" class="sub-menu">
                                 <li>
-                                    <a href="/user"><i class="clip-home-3"></i>
+                                    <a href="{{ action('UserController@doDashboard') }}"><i class="clip-home-3"></i>
                                         <span class="title"> Uploaded Images </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/user/account"><i class="clip-user-2"></i>
+                                    <a href="{{ action('UserController@accountSettings') }}"><i class="clip-user-2"></i>
                                         <span class="title"> Account </span>
                                     </a>
                                 </li>
@@ -97,13 +96,18 @@
                             </a>
                             <ul style="display: block;" class="sub-menu">
                                 <li>
-                                    <a href="/user/admin"><i class="clip-home-3"></i>
+                                    <a href="{{ action('AdminController@doDashboard') }}"><i class="clip-home-3"></i>
                                         <span class="title"> Dashboard </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/user/admin/users"><i class="clip-user-2"></i>
+                                    <a href="{{ action('AdminController@listUsers') }}"><i class="clip-user-2"></i>
                                         <span class="title"> Users </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ action('AdminController@listUserImages', array('userid' => -1)) }}"><i class="clip-bulb"></i>
+                                        <span class="title"> All uploads </span>
                                     </a>
                                 </li>
                             </ul>
@@ -136,6 +140,18 @@
                         </div>
                     </div>
                     </noscript>
+                    @if(Session::has('error'))
+                    <div class="alert alert-danger">
+                        @foreach(Session::get('error') as $error)
+                        <b>{{ $error }}</b><br />
+                        @endforeach
+                    </div>
+                    @endif
+                    @if(Session::has('notice'))
+                    <div class="alert alert-info">
+                        <b>{{ Session::get('notice') }}</b><br />
+                    </div>
+                    @endif
                     @yield('content')
                 </div>
             </div>

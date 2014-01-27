@@ -3,7 +3,25 @@
 @section('pagetitle', '<h1>Dashboard <small>Uploaded images</small></h1>')
 
 @section('content')
-@if( $images = User::getImages() )
+@if( count( $images ))
+<div class="row">
+    <div class="col-sm-12">
+        <div class="well">
+            <input id="delbut" class="btn btn-danger disabled" type="button" value="Delete selected (0) images"/>
+            <span class="btn-group">
+                <div class="btn-default btn">Sort By:</div>
+                <a href="{{ action('UserController@doDashboard', array( 'page' => Input::get('page'), 'sort' => 'imageid', 'order' => $order )) }}" class="btn-default btn {{ ($sort == 'imageid' ? 'active' : '') }}">Upload Date</a>
+                <a href="{{ action('UserController@doDashboard', array( 'page' => Input::get('page'), 'sort' => 'imagesize', 'order' => $order)) }}" class="btn-default btn {{ ($sort == 'imagesize' ? 'active' : '') }}">Image Size</a>
+                <a href="{{ action('UserController@doDashboard', array( 'page' => Input::get('page'), 'sort' => 'full_views', 'order' => $order )) }}" class="btn-default btn {{ ($sort == 'full_views' ? 'active' : '') }}">Image Views</a>
+            </span>
+            <span class="btn-group">
+                <div class="btn-default btn">Order:</div>
+                <a href="{{ action('UserController@doDashboard', array( 'page' => Input::get('page'), 'sort' => $sort, 'order' => 'desc')) }}" class="btn-default btn {{ ($order == 'desc' ? 'active' : '') }}">Descending</a>
+                <a href="{{ action('UserController@doDashboard', array( 'page' => Input::get('page'), 'sort' => $sort, 'order' => 'asc')) }}" class="btn-default btn {{ ($order == 'asc' ? 'active' : '') }}">Ascending</a>
+            </span>
+        </div>
+    </div>
+</div>
 <div class="row">
     <form autocomplete="off" id="imgcontainer">
         @foreach ($images as $image)
@@ -13,7 +31,7 @@
                     <a href="/i/{{ Helper::ImageID($image->imageid) }}.{{ $image->mimetype }}" target="_blank">
                         <img src="/t/{{ Helper::ImageID($image->imageid) }}.{{ $image->mimetype }}" alt="" class="img-responsive">
                     </a>
-                    <input name="fileid[]" class="chkbox" id="cb" value="{{ Helper::ImageID($image->imageid) }}" type="checkbox">
+                    <input name="fileid[]" class="chkbox checkbox" id="cb" value="{{ Helper::ImageID($image->imageid) }}" type="checkbox" >
                 </div>
                 <div class="caption">
                     <div class="tools tools-bottom">
@@ -30,7 +48,7 @@
     </form>
 </div>
 <div class="row text-center">
-    {{ $images->links() }}
+    {{ $images->appends(array('sort' => $sort, 'order' => $order ))->links() }}
 </div>
 @else
 <div class="row">
@@ -45,10 +63,7 @@
 @stop
 
 @section('breadcrumb')
-<li>You currently have {{ count($images); }} files</li>
-<li class="search-box">
-    <input id="delbut" class="btn btn-danger btn-sm" type="button" />
-</li>
+
 @stop
 
 @section('navright')
@@ -57,20 +72,10 @@
 -->
 @stop
 
-@section('styles')
-<style type='text/css'>
-    .selected {
-        background-color: rgb(255, 153, 152);
-    }
-</style>    
-@stop
-
 @section('scripts')
 <script>
     var imgcnt = 0;
     $(document).ready(function() {
-        $('#delbut').attr('value', 'Delete selected (' + imgcnt + ') images');
-
         $('a.delete-image').click(function() {
             imgid = $(this).attr('id');
             $.ajax({
@@ -94,6 +99,12 @@
                 $(this).parent().addClass('selected');
                 imgcnt++;
             }
+            
+            if (imgcnt == 0)
+                $('#delbut').addClass('disabled');
+            else
+                $('#delbut').removeClass('disabled');
+            
             $('#delbut').attr('value', 'Delete selected (' + imgcnt + ') images');
         });
     });
@@ -119,6 +130,10 @@
         $('#img_' + imageid).fadeOut(500);
         if (imgcnt >= 1)
             imgcnt--;
+
+        if (imgcnt == 0)
+            $('#delbut').addClass('disabled');
+
         $('#delbut').attr('value', 'Delete selected (' + imgcnt + ') images');
     }
 </script>

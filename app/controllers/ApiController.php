@@ -11,7 +11,7 @@ class ApiController extends Controller {
         $return = array();
         if (Input::get('key') && Input::get('action')) {
             if ($userid = Api::checkApiKey(Input::get('key'))) {
-                $user = User::find(1);
+                $user = User::find($userid);
                 if (!$user->hasRole('Suspended')) {
                     if (Input::get('action') == 'upload') {
                         if (Input::get('data')) {
@@ -58,7 +58,12 @@ class ApiController extends Controller {
                             $return['code'] = 400;
                             $return['message'] = "Missing data from request";
                         }
-                    }                    
+                    }
+                    
+                    if(Input::get('action') == 'myaccount'){
+                        Auth::loginUsingId($userid);
+                        return Redirect::to('user');
+                    }
                 } else {
                     $return['code'] = 403;
                     $return['message'] = "Account suspended";
