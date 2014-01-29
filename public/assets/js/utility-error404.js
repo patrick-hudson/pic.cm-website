@@ -1,11 +1,11 @@
-var Error404 = function () {
+var Error404 = function() {
     //function to initiate RainyDay
-    var getURLParameter = function (name) {
+    var getURLParameter = function(name) {
         return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
     };
-    var runRainyDay = function () {
+    var runRainyDay = function() {
         var image = document.getElementById('background');
-        image.onload = function () {
+        image.onload = function() {
             var engine = new RainyDay('canvas', 'background', window.innerWidth, window.innerHeight, 1, getURLParameter("blur") || 20);
             var preset = 3 || 1;
             if (preset == 1) {
@@ -28,7 +28,7 @@ var Error404 = function () {
     };
     return {
         //main function to initiate template pages
-        init: function () {
+        init: function() {
             runRainyDay();
         }
     };

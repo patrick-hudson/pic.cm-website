@@ -7,18 +7,22 @@
 @if(count($images) > 0)
 <div class="row">
     <div class="col-sm-12">
-        <div class="well">
-            <span class="btn-group">
-                <div class="btn-default btn">Sort By:</div>
-                <a href="{{ action('AdminController@listUserImages', array('userid' => Input::get('userid'), 'sort' => 'imageid', 'order' => $order, 'page' => Input::get('page'))) }}" class="btn-default btn {{ ($sort == 'imageid' ? 'active' : '') }}">Upload Date</a>
-                <a href="{{ action('AdminController@listUserImages', array('userid' => Input::get('userid'), 'sort' => 'imagesize', 'order' => $order, 'page' => Input::get('page'))) }}" class="btn-default btn {{ ($sort == 'imagesize' ? 'active' : '') }}">Image Size</a>
-                <a href="{{ action('AdminController@listUserImages', array('userid' => Input::get('userid'), 'sort' => 'full_views', 'order' => $order, 'page' => Input::get('page'))) }}" class="btn-default btn {{ ($sort == 'full_views' ? 'active' : '') }}">Image Views</a>
-            </span>
-            <span class="btn-group">
-                <div class="btn-default btn">Order:</div>
-                <a href="{{ action('AdminController@listUserImages', array('userid' => Input::get('userid'), 'sort' => $sort, 'order' => 'desc', 'page' => Input::get('page'))) }}" class="btn-default btn {{ ($order == 'desc' ? 'active' : '') }}">Descending</a>
-                <a href="{{ action('AdminController@listUserImages', array('userid' => Input::get('userid'), 'sort' => $sort, 'order' => 'asc', 'page' => Input::get('page'))) }}" class="btn-default btn {{ ($order == 'asc' ? 'active' : '') }}">Ascending</a>
-            </span>
+        <div class="well clearfix">
+            <div class="col-sm-12 col-lg-7 hidden-xs">
+                <span class="btn-group btn-group-justified">
+                    <div class="btn-default btn col-sm-3">Sort By:</div>
+                    <a href="{{ action('AdminController@listUserImages', array('userid' => Input::get('userid'), 'page' => Input::get('page'), 'sort' => 'imageid', 'order' => $order )) }}" class="btn-default btn {{ ($sort == 'imageid' ? 'active' : '') }}">Upload Date</a>
+                    <a href="{{ action('AdminController@listUserImages', array('userid' => Input::get('userid'), 'page' => Input::get('page'), 'sort' => 'imagesize', 'order' => $order)) }}" class="btn-default btn {{ ($sort == 'imagesize' ? 'active' : '') }}">Image Size</a>
+                    <a href="{{ action('AdminController@listUserImages', array('userid' => Input::get('userid'), 'page' => Input::get('page'), 'sort' => 'full_views', 'order' => $order )) }}" class="btn-default btn {{ ($sort == 'full_views' ? 'active' : '') }}">Image Views</a>
+                </span>
+            </div>
+            <div class=" col-sm-12 col-lg-5 hidden-xs">
+                <span class="btn-group btn-group-justified">
+                    <div class="btn-default btn col-sm-3">Order:</div>
+                    <a href="{{ action('AdminController@listUserImages', array('userid' => Input::get('userid'), 'page' => Input::get('page'), 'sort' => $sort, 'order' => 'desc')) }}" class="btn-default btn {{ ($order == 'desc' ? 'active' : '') }}">Descending</a>
+                    <a href="{{ action('AdminController@listUserImages', array('userid' => Input::get('userid'), 'page' => Input::get('page'), 'sort' => $sort, 'order' => 'asc')) }}" class="btn-default btn {{ ($order == 'asc' ? 'active' : '') }}">Ascending</a>
+                </span>
+            </div>
         </div>
     </div>
 </div>
@@ -37,7 +41,7 @@
                         <ul>
                             <li>File size: {{ Helper::formatBytes($image->imagesize) }}</li>
                             @if(Input::get('userid') == -1)
-                            <li>User: <a href="{{ action('AdminController@listUserImages', array('userid' => $image->userid)) }}">TODO Show Username (ID: {{ $image->userid }})</a></li>
+                            <li>Uploaded by: <a href="{{ action('AdminController@listUserImages', array('userid' => $image->userid)) }}">{{ User::find($image->userid)->username }}</a></li>
                             @endif
                             <li>Upload Date: {{ $image->uploaddate }}</li>
                             <li>Total Views: {{ $image->full_views }}</li>

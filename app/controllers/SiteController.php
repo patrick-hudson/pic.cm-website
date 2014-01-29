@@ -23,6 +23,10 @@ class SiteController extends BaseController {
             App::abort(404);
     }
 
+    public function doGallery($galerieid) {
+        // TODO - Make galaries visible to the public
+    }
+
     public function doThumbnail($filename) {
         $thumb_width = 350;
         $thumb_height = 300;
@@ -32,7 +36,9 @@ class SiteController extends BaseController {
         $target_path = storage_path('images/thumbs') . '/' . $filename;
 
         if (File::exists($image_path)) {
+            $new = false;
             if (!File::exists($target_path)) {
+                $new = true;
                 if (!(is_integer($thumb_width) && $thumb_width > 0) && !($thumb_width === "*")) {
                     echo "The width is invalid";
                     exit(1);
@@ -62,11 +68,8 @@ class SiteController extends BaseController {
 
                 $source_width = imageSX($source_image);
                 $source_height = imageSY($source_image);
-
-                if (($source_width / $source_height) == ($thumb_width / $thumb_height)) {
-                    $source_x = 0;
-                    $source_y = 0;
-                }
+                $source_x = 0;
+                $source_y = 0;
 
                 if (($source_width / $source_height) > ($thumb_width / $thumb_height)) {
                     $source_y = 0;
@@ -106,9 +109,18 @@ class SiteController extends BaseController {
                 imagedestroy($source_image);
             }
 
+            $moddate = date('D, d M Y H:i:s', filemtime($target_path) - date('Z')) . ' GMT';
+
             $imginfo = getimagesize($target_path);
-            $response = Response::make(file_get_contents($target_path), 200);
+            if (strtotime(Request::server('HTTP_IF_MODIFIED_SINCE')) == strtotime($moddate) && !$new)
+                $response = Response::make(file_get_contents($target_path), 304);
+            else
+                $response = Response::make(file_get_contents($target_path), 200);
+
             $response->header('Content-Type', $imginfo['mime']);
+            $response->header('Cache-Control', 'max-age=86400');
+            $response->header('Last-Modified', $moddate);
+
 
             $fid = explode('.', $filename);
             DB::statement('UPDATE `user_images` SET `thumb_views` = `thumb_views` + 1 WHERE `imageid` = ' . Helper::ImageID($fid[0], 'decode'));
@@ -126,12 +138,19 @@ class SiteController extends BaseController {
                 return Response::download($target_path);
             } else {
                 $imginfo = getimagesize($target_path);
-                $response = Response::make(file_get_contents($target_path), 200);
+            $moddate = date('D, d M Y H:i:s', filemtime($target_path) - date('Z')) . ' GMT';
+                if (strtotime(Request::server('HTTP_IF_MODIFIED_SINCE')) == strtotime($moddate))
+                    $response = Response::make(file_get_contents($target_path), 304);
+                else
+                    $response = Response::make(file_get_contents($target_path), 200);
+                
+                $response->header('Cache-Control', 'max-age=86400');
+                $response->header('Last-Modified', $moddate);
                 $response->header('Content-Type', $imginfo['mime']);
 
                 $fid = explode('.', $filename);
                 DB::statement('UPDATE `user_images` SET `full_views` = `full_views` + 1 WHERE `imageid` = ' . Helper::ImageID($fid[0], 'decode'));
-                
+
                 return $response;
             }
         } else {

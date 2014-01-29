@@ -1,11 +1,7 @@
 body, html {
     height: 100%;
     width: 100%;
-}
-
-body, h1, h2, h3, h4, h5, h6 {
-    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: 700;
+    font-family: 'Open Sans', arial, sans-serif;
 }
 
 .wrapper {
@@ -15,8 +11,12 @@ body, h1, h2, h3, h4, h5, h6 {
     padding: 0 0 155px;
 }
 
-.wrapper > .container {
+.wrapper > .container{
     margin-top: 50px;
+}
+
+.intro-header > .container {
+    padding-top: 50px;
 }
 
 .lead {

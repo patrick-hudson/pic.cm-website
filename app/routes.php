@@ -52,6 +52,7 @@ Route::when('user/admin*', 'isAdmin');
 
 Route::get('user', array('before' => 'auth', 'uses' => 'UserController@doDashboard'));
 Route::get('user/account', array('before' => 'auth', 'uses' => 'UserController@accountSettings'));
+Route::get('user/upload', array('before' => 'auth', 'uses' => 'UserController@uploadFiles'));
 
 Route::get('user/confirm/{code}', 'UserController@confirm');
 Route::get('user/logout', array('before' => 'auth', 'uses' => 'UserController@logout'));

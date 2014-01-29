@@ -347,4 +347,45 @@ class Helper {
         return $url;
     }
 
+    public static function saveFile($tmpfname, $userid) {
+
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mimetype = finfo_file($finfo, $tmpfname);
+        finfo_close($finfo);
+
+
+        $return['image']['size'] = filesize($tmpfname);
+        $return['image']['type'] = Helper::mimeToExt($mimetype);
+        $return['code'] = 200;
+
+        $clientip = ip2long($_SERVER['REMOTE_ADDR']);
+        DB::insert('INSERT INTO `user_upload_addresses`(`address`, `created_at`, `updated_at`) ' .
+                'VALUES (?, NOW(), NOW()) ' .
+                'ON DUPLICATE KEY UPDATE updated_at=NOW();', array($clientip));
+
+        $addressid = DB::table('user_upload_addresses')
+                ->select('addressid')
+                ->where('address', $clientip)
+                ->first();
+
+        $id = DB::table('user_images')->insertGetId(
+                array(
+                    'imagesize' => $return['image']['size'],
+                    'userid' => $userid,
+                    'addressid' => $addressid->addressid,
+                    'mimetype' => $return['image']['type'],
+                    'uploaddate' => date("Y-m-d H:i:s")
+                )
+        );
+
+        $return['image']['name'] = Helper::ImageID($id);
+
+        File::move($tmpfname, storage_path('images/raw/' . $return['image']['name'] . '.' . $return['image']['type']));
+
+        if (file_exists($tmpfname))
+            unlink($tmpfname);
+
+        return $return;
+    }
+
 }

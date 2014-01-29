@@ -13,18 +13,15 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta content="" name="description" />
         <meta content="" name="author" />
-        <link rel="stylesheet" href="/assets/plugins/bootstrap/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="/assets/plugins/font-awesome/css/font-awesome.min.css" />
-        <link rel="stylesheet" href="/assets/fonts/style.css" />
+        <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
         <link rel="stylesheet" href="/assets/css/main.css" />
         <link rel="stylesheet" href="/assets/css/main-responsive.css" />
         <link rel="stylesheet" href="/assets/plugins/iCheck/skins/all.css" />
-        <link rel="stylesheet" href="/assets/plugins/bootstrap-colorpalette/css/bootstrap-colorpalette.css" />
-        <link rel="stylesheet" href="/assets/plugins/perfect-scrollbar/src/perfect-scrollbar.css" />
         <link rel="stylesheet" href="/assets/css/manager.css" type="text/css" />
         <link rel="stylesheet" href="/assets/css/print.css" type="text/css" media="print" />
         <!--[if IE 7]>
-        <link rel="stylesheet" href="/assets/plugins/font-awesome/css/font-awesome-ie7.min.css">
+        <link rel="stylesheet" href="/assets/css/font-awesome-ie7.min.css">
         <![endif]-->
         <link rel="shortcut icon" href="/assets/favicon.ico" />
         @yield('styles')
@@ -77,12 +74,17 @@
                             </a>
                             <ul style="display: block;" class="sub-menu">
                                 <li>
-                                    <a href="{{ action('UserController@doDashboard') }}"><i class="clip-home-3"></i>
+                                    <a href="{{ action('UserController@doDashboard') }}"><i class="glyphicon glyphicon-home"></i>
                                         <span class="title"> Uploaded Images </span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ action('UserController@accountSettings') }}"><i class="clip-user-2"></i>
+                                    <a href="{{ action('UserController@uploadFiles') }}"><i class="glyphicon glyphicon-upload"></i>
+                                        <span class="title"> Upload Image </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ action('UserController@accountSettings') }}"><i class="glyphicon glyphicon-cog"></i>
                                         <span class="title"> Account </span>
                                     </a>
                                 </li>
@@ -167,33 +169,42 @@
         </div>
         @show
         <!--[if lt IE 9]>
-        <script src="assets/plugins/respond.min.js"></script>
-        <script src="assets/plugins/excanvas.min.js"></script>
+        <script src="/assets/plugins/respond.min.js"></script>
+        <script src="/assets/plugins/excanvas.min.js"></script>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <![endif]-->
         <!--[if gte IE 9]><!-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
         <!--<![endif]-->
         <script src="/assets/plugins/jquery-ui/jquery-ui-1.10.2.custom.min.js"></script>
-        <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/assets/js/bootstrap.min.js"></script>
         <script src="/assets/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js"></script>
         <script src="/assets/plugins/blockUI/jquery.blockUI.js"></script>
-        <script src="/assets/plugins/iCheck/jquery.icheck.min.js"></script>
-        <script src="/assets/plugins/perfect-scrollbar/src/jquery.mousewheel.js"></script>
-        <script src="/assets/plugins/perfect-scrollbar/src/perfect-scrollbar.js"></script>
-        <script src="/assets/plugins/less/less-1.5.0.min.js"></script>
         <script src="/assets/plugins/jquery-cookie/jquery.cookie.js"></script>
-        <script src="/assets/plugins/bootstrap-colorpalette/js/bootstrap-colorpalette.js"></script>
-        <script src="/assets/js/main.js"></script>
+        <script src="/assets/plugins/iCheck/jquery.icheck.min.js"></script>
+        <script src="/assets/plugins/less/less-1.5.0.min.js"></script>
+        <script>
+$(document).ready(function() {
+    $windowWidth = $(window).width();
+    $windowHeight = $(window).height();
+    $pageArea = $windowHeight - $('body > .navbar').outerHeight() - $('body > .footer').outerHeight();
+    $('.sidebar-search input').removeAttr('style').removeClass('open');
+    mainContainer = $('.main-content > .container');
+    mainNavigation = $('.main-navigation');
+    if ($pageArea < 760) {
+        $pageArea = 760;
+    }
+    if (mainContainer.outerHeight() < mainNavigation.outerHeight() && mainNavigation.outerHeight() > $pageArea) {
+        mainContainer.css('min-height', mainNavigation.outerHeight() - 2);
+    } else {
+        mainContainer.css('min-height', $pageArea - 2);
+    }
+});
+        </script>
 
         <!-- start: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
         @yield('scripts')
         <!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
-        <script>
-$(document).ready(function() {
-    Main.init();
-});
-        </script>
     </body>
     <!-- end: BODY -->
 </html>

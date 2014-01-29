@@ -211,4 +211,8 @@ class UserController extends BaseController {
         return View::make('user.account');
     }
 
+    public function uploadFiles() {
+        return View::make('user.upload');
+    }
+
 }

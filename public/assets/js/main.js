@@ -58,6 +58,7 @@ var Main = function() {
         runContainerHeight();
 
     };
+    
     //function to adapt the Main Content height to the Main Navigation height
     var runContainerHeight = function() {
         mainContainer = $('.main-content > .container');
@@ -66,50 +67,27 @@ var Main = function() {
             $pageArea = 760;
         }
         if (mainContainer.outerHeight() < mainNavigation.outerHeight() && mainNavigation.outerHeight() > $pageArea) {
-            mainContainer.css('min-height', mainNavigation.outerHeight()-2);
+            mainContainer.css('min-height', mainNavigation.outerHeight() - 2);
         } else {
-            mainContainer.css('min-height', $pageArea-2);
+            mainContainer.css('min-height', $pageArea - 2);
         }
         ;
     };
-    //function to activate the ToDo list, if present
-    var runToDoAction = function() {
-        if ($(".todo-actions").length) {
-            $(".todo-actions").click(function() {
-                if ($(this).find("i").hasClass("fa-square-o") || $(this).find("i").hasClass("icon-check-empty")) {
-                    if ($(this).find("i").hasClass("fa")) {
-                        $(this).find("i").removeClass("fa-square-o").addClass("fa-check-square-o");
-                    } else {
-                        $(this).find("i").removeClass("icon-check-empty").addClass("fa fa-check-square-o");
-                    }
-                    ;
-                    $(this).parent().find("span").css({
-                        opacity: .25
-                    });
-                    $(this).parent().find(".desc").css("text-decoration", "line-through");
-                } else {
-                    $(this).find("i").removeClass("fa-check-square-o").addClass("fa-square-o");
-                    $(this).parent().find("span").css({
-                        opacity: 1
-                    });
-                    $(this).parent().find(".desc").css("text-decoration", "none");
-                }
-                return !1;
-            });
-        }
-    };
+    
     //function to activate the Tooltips, if present
     var runTooltips = function() {
         if ($(".tooltips").length) {
             $('.tooltips').tooltip();
         }
     };
+    
     //function to activate the Popovers, if present
     var runPopovers = function() {
         if ($(".popovers").length) {
             $('.popovers').popover();
         }
     };
+    
     //function to allow a button or a link to open a tab
     var runShowTab = function() {
         if ($(".show-tab").length) {
@@ -126,15 +104,7 @@ var Main = function() {
             $('a[href="#' + getParameterByName('tabId') + '"]').tab('show');
         }
     };
-    var runPanelScroll = function() {
-        if ($(".panel-scroll").length) {
-            $('.panel-scroll').perfectScrollbar({
-                wheelSpeed: 50,
-                minScrollbarLength: 20,
-                suppressScrollX: true
-            });
-        }
-    };
+    
     //function to extend the default settings of the Accordion
     var runAccordionFeatures = function() {
         if ($('.accordion').length) {
@@ -281,6 +251,7 @@ var Main = function() {
                 results = regex.exec(location.search);
         return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     };
+    
     //function to activate the iCheck Plugin
     var runCustomCheck = function() {
         if ($('input[type="checkbox"]').length || $('input[type="radio"]').length) {
@@ -402,6 +373,7 @@ var Main = function() {
         }
         ;
     };
+    
     //Search Input function
     var runSearchInput = function() {
         var search_input = $('.sidebar-search input');
@@ -450,264 +422,13 @@ var Main = function() {
             return false;
         });
     };
-    //Set of functions for Style Selector
-    var runStyleSelector = function() {
-        $('.style-toggle').bind('click', function() {
-            if ($(this).hasClass('open')) {
-                $(this).removeClass('open').addClass('close');
-                $('#style_selector_container').hide();
-            } else {
-                $(this).removeClass('close').addClass('open');
-                $('#style_selector_container').show();
-            }
-        });
-        setColorScheme();
-        setLayoutStyle();
-        setHeaderStyle();
-        setFooterStyle();
-        setBoxedBackgrounds();
-    };
-    $('.drop-down-wrapper').perfectScrollbar({
-        wheelSpeed: 50,
-        minScrollbarLength: 20,
-        suppressScrollX: true
-    });
-    $('.navbar-tools .dropdown').on('shown.bs.dropdown', function() {
-        $(this).find('.drop-down-wrapper').scrollTop(0).perfectScrollbar('update');
-    });
-    var setColorScheme = function() {
-        $('.icons-color a').bind('click', function() {
-            $('.icons-color img').each(function() {
-                $(this).removeClass('active');
-            });
-            $(this).find('img').addClass('active');
-            if ($('#skin_color').attr("rel") == "stylesheet/less") {
-                $('#skin_color').next('style').remove();
-                $('#skin_color').attr("rel", "stylesheet");
-
-            }
-            $('#skin_color').attr("href", "assets/css/theme_" + $(this).attr('id') + ".css");
-
-        });
-    };
-    var setBoxedBackgrounds = function() {
-        $('.boxed-patterns a').bind('click', function() {
-            if ($('body').hasClass('layout-boxed')) {
-                var classes = $('body').attr("class").split(" ").filter(function(item) {
-                    return item.indexOf("bg_style_") === -1 ? item : "";
-                });
-                $('body').attr("class", classes.join(" "));
-                $('.boxed-patterns img').each(function() {
-                    $(this).removeClass('active');
-                });
-                $(this).find('img').addClass('active');
-                $('body').addClass($(this).attr('id'));
-            } else {
-                alert('Select boxed layout');
-            }
-        });
-    };
-    var setLayoutStyle = function() {
-        $('select[name="layout"]').change(function() {
-            if ($('select[name="layout"] option:selected').val() == 'boxed')
-                $('body').addClass('layout-boxed');
-            else
-                $('body').removeClass('layout-boxed');
-        });
-    };
-    var setHeaderStyle = function() {
-        $('select[name="header"]').change(function() {
-            if ($('select[name="header"] option:selected').val() == 'default')
-                $('body').addClass('header-default');
-            else
-                $('body').removeClass('header-default');
-        });
-    };
-    var setFooterStyle = function() {
-        $('select[name="footer"]').change(function() {
-            if ($('select[name="footer"] option:selected').val() == 'fixed')
-                $('body').addClass('footer-fixed');
-            else
-                $('body').removeClass('footer-fixed');
-        });
-    };
-    var runColorPalette = function() {
-        if ($('.colorpalette').length) {
-            $('.colorpalette').colorPalette().on('selectColor', function(e) {
-                $(this).closest('ul').prev('a').children('i').css('background-color', e.color).end().closest('div').prev('input').val(e.color);
-                runActivateLess();
-            });
-        }
-        ;
-    };
-
-    //function to activate Less style
-    var runActivateLess = function() {
-        $('		.icons-color img').removeClass('active');
-        if ($('#skin_color').attr("rel") == "stylesheet") {
-            $('#skin_color').attr("rel", "stylesheet/less").attr("href", "assets/less/styles.less");
-            less.sheets.push($('link#skin_color')[0]);
-            less.refresh();
-        }
-        ;
-        less.modifyVars({
-            '@base': $('.color-base').val(),
-            '@text': $('.color-text').val(),
-            '@badge': $('.color-badge').val()
-        });
-    };
-
-    //Window Resize Function
-    var runWIndowResize = function(func, threshold, execAsap) {
-        //wait until the user is done resizing the window, then execute
-        $(window).clipresize(function() {
-            runElementsPosition();
-        });
-    };
-    //function to save user settings
-    var runSaveSetting = function() {
-        $('.save_style').bind('click', function() {
-            var clipSetting = new Object;
-            if ($('body').hasClass('rtl')) {
-                clipSetting.rtl = true;
-            } else {
-                clipSetting.rtl = false;
-            }
-            ;
-            if ($('body').hasClass('layout-boxed')) {
-                clipSetting.layoutBoxed = true;
-                $("body[class]").filter(function() {
-                    var classNames = this.className.split(/\s+/);
-                    for (var i = 0; i < classNames.length; ++i) {
-                        if (classNames[i].substr(0, 9) === "bg_style_") {
-                            clipSetting.bgStyle = classNames[i];
-                        }
-                    }
-
-                });
-            } else {
-                clipSetting.layoutBoxed = false;
-            }
-            ;
-            if ($('body').hasClass('header-default')) {
-                clipSetting.headerDefault = true;
-            } else {
-                clipSetting.headerDefault = false;
-            }
-            ;
-            if ($('body').hasClass('footer-fixed')) {
-                clipSetting.footerDefault = false;
-            } else {
-                clipSetting.footerDefault = true;
-            }
-            ;
-            if ($('#skin_color').attr('rel') == 'stylesheet') {
-                clipSetting.useLess = false;
-            } else if ($('#skin_color').attr('rel') == 'stylesheet/less') {
-                clipSetting.useLess = true;
-                clipSetting.baseColor = $('.color-base').val();
-                clipSetting.textColor = $('.color-text').val();
-                clipSetting.badgeColor = $('.color-badge').val();
-            }
-            ;
-            clipSetting.skinClass = $('#skin_color').attr('href');
-
-            $.cookie("clip-setting", JSON.stringify(clipSetting));
-
-            var el = $('#style_selector_container');
-            el.block({
-                overlayCSS: {
-                    backgroundColor: '#fff'
-                },
-                message: '<img src="assets/images/loading.gif" /> Just a moment...',
-                css: {
-                    border: 'none',
-                    color: '#333',
-                    background: 'none'
-                }
-            });
-            window.setTimeout(function() {
-                el.unblock();
-            }, 1000);
-        });
-    };
-    //function to load user settings
-    var runCustomSetting = function() {
-        if ($.cookie("clip-setting")) {
-            var loadSetting = jQuery.parseJSON($.cookie("clip-setting"));
-            if (loadSetting.layoutBoxed) {
-
-                $('body').addClass('layout-boxed');
-                $('#style_selector select[name="layout"]').find('option[value="boxed"]').attr('selected', 'true');
-            }
-            ;
-            if (loadSetting.headerDefault) {
-                $('body').addClass('header-default');
-                $('#style_selector select[name="header"]').find('option[value="default"]').attr('selected', 'true');
-            }
-            ;
-            if (!loadSetting.footerDefault) {
-                $('body').addClass('footer-fixed');
-                $('#style_selector select[name="footer"]').find('option[value="fixed"]').attr('selected', 'true');
-            }
-            ;
-            if ($('#style_selector').length) {
-                if (loadSetting.useLess) {
-
-                    $('.color-base').val(loadSetting.baseColor).next('.dropdown').find('i').css('background-color', loadSetting.baseColor);
-                    $('.color-text').val(loadSetting.textColor).next('.dropdown').find('i').css('background-color', loadSetting.textColor);
-                    $('.color-badge').val(loadSetting.badgeColor).next('.dropdown').find('i').css('background-color', loadSetting.badgeColor);
-                    runActivateLess();
-                } else {
-                    $('.color-base').val('#FFFFFF').next('.dropdown').find('i').css('background-color', '#FFFFFF');
-                    $('.color-text').val('#555555').next('.dropdown').find('i').css('background-color', '#555555');
-                    $('.color-badge').val('#007AFF').next('.dropdown').find('i').css('background-color', '#007AFF');
-                    $('#skin_color').attr('href', loadSetting.skinClass);
-                }
-                ;
-            }
-            ;
-            $('body').addClass(loadSetting.bgStyle);
-        } else {
-            runDefaultSetting();
-        }
-        ;
-    };
-    //function to clear user settings
-    var runClearSetting = function() {
-        $('.clear_style').bind('click', function() {
-            $.removeCookie("clip-setting");
-            $('body').removeClass("layout-boxed header-default footer-fixed");
-            $('body')[0].className = $('body')[0].className.replace(/\bbg_style_.*?\b/g, '');
-            if ($('#skin_color').attr("rel") == "stylesheet/less") {
-                $('#skin_color').next('style').remove();
-                $('#skin_color').attr("rel", "stylesheet");
-
-            }
-
-            $('		.icons-color img').first().trigger('click');
-            runDefaultSetting();
-        });
-    };
-    //function to restore user settings
-    var runDefaultSetting = function() {
-        $('#style_selector select[name="layout"]').val('default');
-        $('#style_selector select[name="header"]').val('fixed');
-        $('#style_selector select[name="footer"]').val('default');
-        $('		.boxed-patterns img').removeClass('active');
-        $('.color-base').val('#FFFFFF').next('.dropdown').find('i').css('background-color', '#FFFFFF');
-        $('.color-text').val('#555555').next('.dropdown').find('i').css('background-color', '#555555');
-        $('.color-badge').val('#007AFF').next('.dropdown').find('i').css('background-color', '#007AFF');
-    };
+    
     return {
         //main function to initiate template pages
         init: function() {
-            runWIndowResize();
             runInit();
-            runStyleSelector();
             runSearchInput();
             runElementsPosition();
-            runToDoAction();
             runNavigationToggler();
             runNavigationMenu();
             runGoTop();
@@ -715,14 +436,9 @@ var Main = function() {
             runDropdownEnduring();
             runTooltips();
             runPopovers();
-            runPanelScroll();
             runShowTab();
             runAccordionFeatures();
             runCustomCheck();
-            runColorPalette();
-            runSaveSetting();
-            runCustomSetting();
-            runClearSetting();
         }
     };
 }();
