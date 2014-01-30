@@ -38,7 +38,7 @@
                     <label class="col-sm-3 control-label">Email Confirmed</label>
                     <div class="col-sm-9">
                         <div class="checkbox">
-                            <label>{{ Form::checkbox('confirmed', $user->confirmed, $user->confirmed, array('class' => 'green')) }}</label>
+                            <label>{{ Form::checkbox('confirmed', 'emailConfirmed', $user->confirmed, array('class' => 'green', ($user->confirmed ? 'checked' : ''))) }}</label>
                         </div>
                     </div>
                 </div>

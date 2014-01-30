@@ -32,6 +32,21 @@ class ApiController extends Controller {
                         Auth::loginUsingId($userid);
                         return Redirect::to('user');
                     }
+
+                    if (Input::get('action') == 'accountstats') {
+                        $stats = DB::table('users')
+                                ->select('users.username', DB::raw('COUNT(user_images.imageid) as totalimages'), DB::raw('SUM(user_images.imagesize) as spaceused'))
+                                ->join('user_images', function($join) {
+                                    $join->on('users.id', '=', 'user_images.userid')
+                                    ->where('users.id', '=', Api::checkApiKey(Input::get('key')));
+                                })
+                                ->get();
+                        $return['code'] = 200;
+                        foreach($stats[0] as $key => $value){
+                            $return['data'][$key] = $value;
+                        }
+                        $return['data']['spacetotal'] = 200 * 1024 * 1024;
+                    }
                 } else {
                     $return['code'] = 403;
                     $return['message'] = "Account suspended";

@@ -85,8 +85,8 @@ class AdminController extends Controller {
 
         $user->username = Input::get('username');
         $user->email = Input::get('email');
-        $user->confirmed = Input::get('confirmed');
-
+        $user->confirmed = (Input::get('confirmed') ? 1 : 0);
+        
         if ($user->updateUniques()) {
             return Redirect::action('AdminController@listUsers')
                             ->with('notice', 'User settings for ' . $user->username . ' saved!');
