@@ -121,10 +121,6 @@ class SiteController extends BaseController {
             $response->header('Cache-Control', 'max-age=86400');
             $response->header('Last-Modified', $moddate);
 
-
-            $fid = explode('.', $filename);
-            DB::statement('UPDATE `user_images` SET `thumb_views` = `thumb_views` + 1 WHERE `imageid` = ' . Helper::ImageID($fid[0], 'decode'));
-
             return $response;
         } else
             App::abort(404);
@@ -138,19 +134,24 @@ class SiteController extends BaseController {
                 return Response::download($target_path);
             } else {
                 $imginfo = getimagesize($target_path);
-            $moddate = date('D, d M Y H:i:s', filemtime($target_path) - date('Z')) . ' GMT';
+                $moddate = date('D, d M Y H:i:s', filemtime($target_path) - date('Z')) . ' GMT';
                 if (strtotime(Request::server('HTTP_IF_MODIFIED_SINCE')) == strtotime($moddate))
                     $response = Response::make(file_get_contents($target_path), 304);
                 else
                     $response = Response::make(file_get_contents($target_path), 200);
-                
+
                 $response->header('Cache-Control', 'max-age=86400');
                 $response->header('Last-Modified', $moddate);
                 $response->header('Content-Type', $imginfo['mime']);
 
                 $fid = explode('.', $filename);
-                DB::statement('UPDATE `user_images` SET `full_views` = `full_views` + 1 WHERE `imageid` = ' . Helper::ImageID($fid[0], 'decode'));
-
+                
+                DB::table('user_images_views')->insert(
+                        array('imageid' => Helper::ImageID($fid[0], 'decode'), 
+                              'useraddress' => ip2long(Request::server("REMOTE_ADDR")), 
+                              'processed' => 0)
+                );
+                
                 return $response;
             }
         } else {

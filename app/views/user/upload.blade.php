@@ -1,32 +1,38 @@
 @extends('layouts.user')
-@section('title', 'upload Files')
+@section('title', 'Ypload Files')
 @section('pagetitle', '<h1>Upload Files</h1>')
 @section('content')
-<div class="row">
-    <div class="col-sm-12">
-        <form action="/ajax?action=webupload&ajax=true" class="dropzone">
-            <div class="fallback">
-                <input name="file" type="file" />
-                <input type="submit" class="btn btn-success" />
-            </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 list-group">
+
+        </div>
+        <form action="/ajax?action=webupload&ajax=true" class="dropzone col-md-9">
+            
         </form>
     </div>
 </div>
 @stop
 
 @section('styles')
-<link rel="stylesheet" href="/assets/plugins/dropzone/css/dropzone.css">
+
 @stop
 
 @section('scripts')
-<script src="/assets/plugins/dropzone/dropzone.js"></script>
+<script src="/assets/js/upload.js"></script>
 <script>
-    $(document).ready(function() {
-        $(".dropzone").dropzone({
-            paramName: 'file',
-            addRemoveLinks: true,
-            maxFilesize: 10.0
-        });
-    });
+    var Dropzone = function() {
+        var runDropzone = function() {
+            $(".dropzone").dropzone({
+                paramName: "file",
+                maxFilesize: 5.0
+            });
+        };
+        return {
+            init: function() {
+                runDropzone();
+            }
+        };
+    }();
 </script>
 @stop

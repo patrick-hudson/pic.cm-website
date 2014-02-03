@@ -47,6 +47,11 @@ class ApiController extends Controller {
                         }
                         $return['data']['spacetotal'] = 200 * 1024 * 1024;
                     }
+                    
+                    if(Input::get('action') == 'remoteupload'){
+                        $return['code'] = 501;
+                        $return['message'] = "This feature is currently unavailable";
+                    }
                 } else {
                     $return['code'] = 403;
                     $return['message'] = "Account suspended";

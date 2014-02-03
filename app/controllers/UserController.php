@@ -24,7 +24,7 @@ class UserController extends BaseController {
      * Stores new account
      *
      */
-    public function do_create() {
+    public function doCreate() {
         $user = new User;
 
         $user->username = Input::get('username');
@@ -73,12 +73,12 @@ class UserController extends BaseController {
      * Attempt to do login
      *
      */
-    public function do_login() {
+    public function doLogin() {
         $input = array(
             'email' => Input::get('email'), // May be the username too
             'username' => Input::get('username'), // so we have to pass both
             'password' => Input::get('password'),
-            'remember' => Input::get('remember'),
+            'remember' => true,
         );
 
         // If you wish to only allow login from confirmed users, call logAttempt

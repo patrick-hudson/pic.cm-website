@@ -6,9 +6,7 @@
         <div class="row">
             <div class="col-sm-10 col-sm-offset-1">
                 <center>
-                    <a href="/i/{{ $imageid }}.{{ $image[0]->mimetype }}">
-                        <img src="/i/{{ $imageid }}.{{ $image[0]->mimetype }}" class="thumbnail">
-                    </a>
+                    <a href="/i/{{ $imageid }}.{{ $image[0]->mimetype }}"><img src="/i/{{ $imageid }}.{{ $image[0]->mimetype }}" class="img-responsive thumbnail"></a>
                 </center>
             </div>
         </div>

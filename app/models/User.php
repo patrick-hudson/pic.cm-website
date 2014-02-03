@@ -61,9 +61,9 @@ class User extends ConfideUser {
     public static function userStats($userid = 0) {
         $userstats = array();
         if ($userid > 0) {
-            $userstats = DB::select('SELECT COUNT(`imageid`) as totalimg, SUM(`imagesize`) as totalsize, SUM(`full_views`) as totalimgviews, SUM(`thumb_views`) as totalthmbviews FROM `user_images` WHERE `userid` = ?', array($userid));
+            $userstats = DB::select('SELECT COUNT(`imageid`) as totalimg, SUM(`imagesize`) as totalsize, SUM(`full_views`) as totalimgviews FROM `user_images` WHERE `userid` = ?', array($userid));
         } else {
-            $userstats = DB::select('SELECT COUNT(`imageid`) as totalimg, SUM(`imagesize`) as totalsize, SUM(`full_views`) as totalimgviews, SUM(`thumb_views`) as totalthmbviews FROM `user_images`');
+            $userstats = DB::select('SELECT COUNT(`imageid`) as totalimg, SUM(`imagesize`) as totalsize, SUM(`full_views`) as totalimgviews FROM `user_images`');
         }
 
         return $userstats;

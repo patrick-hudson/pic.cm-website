@@ -3,20 +3,15 @@
     <head>
         @section('head')
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="">
-
         <title>@yield('title', 'Simple image hosting') :: Pic.cm</title>
-        <link href="/assets/css/bootstrap.css" rel="stylesheet">
-        <link href="/assets/css/style.css" rel="stylesheet">
         <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,300,400,600,700&amp;lang=en-GB" rel="stylesheet" title="Open Sans Stylesheet">
-        <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-        <script src="/assets/js/bootstrap.js"></script>
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+        <link href="/assets/css/global.css" rel="stylesheet">
+        <link href="/assets/css/site.css" rel="stylesheet">
+        @yield('styles')
         <link rel="shortcut icon" href="/assets/favicon.ico" />
         @show
     </head>
-
     <body>
         <div class="wrapper">
             <nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
@@ -46,7 +41,9 @@
                 </div><!-- /.container -->
                 @show
             </nav>
+            <div id="main">
             @yield('content')
+            </div>
         </div>
         <footer>
             @section('footer')
@@ -68,5 +65,8 @@
             </div>
             @show
         </footer>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+        @yield('scripts')
     </body>
 </html>

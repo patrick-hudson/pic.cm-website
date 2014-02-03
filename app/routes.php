@@ -58,10 +58,10 @@ Route::get('user/confirm/{code}', 'UserController@confirm');
 Route::get('user/logout', array('before' => 'auth', 'uses' => 'UserController@logout'));
 
 Route::get('user/create', array('before' => 'guest', 'uses' => 'UserController@create'));
-Route::post('user/create', array('before' => 'guest', 'uses' => 'UserController@do_create'));
+Route::post('user/create', array('before' => 'guest', 'uses' => 'UserController@doCreate'));
 
 Route::get('user/login', array('before' => 'guest', 'uses' => 'UserController@login'));
-Route::post('user/login', array('before' => 'guest', 'uses' => 'UserController@do_login'));
+Route::post('user/login', array('before' => 'guest', 'uses' => 'UserController@doLogin'));
 
 Route::get('user/forgot_password', 'UserController@forgotPassword');
 Route::post('user/forgot_password', 'UserController@doForgotPassword');
